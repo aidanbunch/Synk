@@ -15,16 +15,13 @@ import {
 	User,
 } from "@supabase/supabase-js";
 
-type UserOptional = User | null;
+// `user` will be object, `null` (loading) or `false` (logged out)
+type UserOptional = User | null | false;
 
-// Whether to merge extra user data from database into `auth.user`
 const MERGE_DB_USER = true;
 
-// Whether to connect analytics session to `user.uid`
 const ANALYTICS_IDENTIFY = true;
 
-// Create a `useAuth` hook and `AuthProvider` that enables
-// any component to subscribe to auth and re-render when it changes.
 const authContext = createContext<any>(null);
 export const useAuth = () => useContext(authContext);
 
@@ -34,36 +31,23 @@ export function AuthProvider({ children }: any) {
 }
 
 // Hook that creates the `auth` object and handles state
-// This is called from `AuthProvider` above (extracted out for readability)
 function useAuthProvider() {
-	// Store auth user in state
-	// `user` will be object, `null` (loading) or `false` (logged out)
 	const [user, setUser] = useState<UserOptional>(null);
 
-	// Merge extra user data from the database
-	// This means extra user data (such as payment plan) is available as part
-	// of `auth.user` and doesn't need to be fetched separately. Convenient!
 	let finalUser = useMergeExtraData(user, { enabled: MERGE_DB_USER });
 
-	// Add custom fields and formatting to the `user` object
 	finalUser = useFormatUser(finalUser);
-
-	// Connect analytics session to user
 	useIdentifyUser(finalUser, { enabled: ANALYTICS_IDENTIFY });
 
-	// Handle response from auth functions (`signup`, `signin`, and `signinWithProvider`)
 	const handleAuth = async (response: any) => {
 		const { user } = response.data;
 
-		// If email is unconfirmed throw error to be displayed in UI
-		// The user will be confirmed automatically if email confirmation is disabled in Supabase settings
 		if (!user?.email_confirmed_at) {
 			throw new Error(
 				"Thanks for signing up! Please check your email to complete the process."
 			);
 		}
 
-		// Update user in state
 		if (user) setUser(user);
 		return user;
 	};
@@ -90,9 +74,6 @@ function useAuthProvider() {
 					options: { redirectTo: `${window.location.origin}/dashboard` },
 				})
 				.then(handleError)
-				// Because `supabase.auth.signIn` resolves immediately we need to add this so
-				// it never resolves (component will display loading indicator indefinitely).
-				// Once social signin is completed the page will redirect to value of `redirectTo`.
 				.then(() => {
 					return new Promise(() => null);
 				})
@@ -115,14 +96,11 @@ function useAuthProvider() {
 		return supabase.auth.updateUser({ password }).then(handleError);
 	};
 
-	// Update auth user and persist data to database
-	// Call this function instead of multiple auth/db update functions
 	const updateProfile = async (data: any) => {
 		const { email, ...other } = data;
 
 		// If email changed let them know to click the confirmation links
-		// Will be persisted to the database by our Supabase trigger once process is completed
-		if (email && email !== user?.email) {
+		if (email && user && email !== user.email) {
 			await supabase.auth.updateUser({ email }).then(handleError);
 			throw new Error(
 				"To complete this process click the confirmation links sent to your new and old email addresses"
@@ -146,8 +124,7 @@ function useAuthProvider() {
 				if (session) {
 					setUser(session.user);
 				} else {
-					// check if setting to null causes issues
-					setUser(null);
+					setUser(false);
 				}
 			});
 		}
@@ -157,8 +134,7 @@ function useAuthProvider() {
 			if (session) {
 				setUser(session.user);
 			} else {
-				// check if setting to null causes issues
-				setUser(null);
+				setUser(false);
 			}
 		});
 
@@ -182,13 +158,9 @@ function useAuthProvider() {
 function useFormatUser(user: any) {
 	// Memoize so returned object has a stable identity
 	return useMemo(() => {
-		// Return if auth user is `null` (loading) or `false` (not authenticated)
 		if (!user) return user;
 
-		// Create an array of user's auth providers by id (["password", "google", etc])
-		// Components can read this to prompt user to re-auth with the correct provider
 		let provider = user.app_metadata.provider;
-		// Supabase calls it "email", but our components expect "password"
 		if (provider === "email") provider = "password";
 		const providers = [provider];
 
@@ -215,14 +187,10 @@ function useMergeExtraData(user: any, { enabled }: { enabled: boolean }) {
 
 		switch (status) {
 			case "success":
-				// If successful, but `data` is `null`, that means user just signed up and the `createUser`
-				// function hasn't populated the db yet. Return `null` to indicate auth is still loading.
-				// The above call to `useUser` will re-render things once the data comes in.
 				if (data === null) return null;
 				// Return auth `user` merged with extra user `data`
 				return { ...user, ...data };
 			case "error":
-				// Uh oh.. Let's at least show a helpful error.
 				throw new Error(`
             Error: ${error.message}
             This happened while attempting to fetch extra user data from the database
@@ -230,8 +198,6 @@ function useMergeExtraData(user: any, { enabled }: { enabled: boolean }) {
             disable merging extra user data by setting MERGE_DB_USER to false.
           `);
 			default:
-				// We have an `idle` or `loading` status so return `null`
-				// to indicate that auth is still loading.
 				return null;
 		}
 	}, [user, enabled, data, status, error]);
@@ -249,7 +215,6 @@ function useIdentifyUser(user: any, { enabled }: { enabled: boolean }) {
 // A Higher Order Component for requiring authentication
 export const requireAuth = (Component: ComponentType) => {
 	return function RequireAuthHOC(props: any) {
-		// Get authenticated user
 		const auth = useAuth();
 
 		useEffect(() => {
