@@ -15,7 +15,7 @@ import {
       () =>
         supabase
           .from("users")
-          .select(`*, customers ( * )`)
+          .select(`*`)
           .eq("id", uid)
           .single()
           .then(handle),
@@ -28,7 +28,7 @@ import {
   export function getUser(uid: string) {
     return supabase
       .from("users")
-      .select(`*, customers ( * )`)
+      .select(`*`)
       .eq("id", uid)
       .single()
       .then(handle);
