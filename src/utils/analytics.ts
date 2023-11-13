@@ -13,7 +13,7 @@ const analytics = Analytics({
     // @ts-ignore
     // no types for this plugin
     googleAnalytics({
-      trackingId: process.env.NEXT_PUBLIC_GA_TRACKING_ID,
+      measurementIds: [process.env.NEXT_PUBLIC_GA_TRACKING_ID || ""],
     }),
   ],
 });
