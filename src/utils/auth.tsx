@@ -10,10 +10,7 @@ import supabase from "./supabase";
 import { useUser, updateUser } from "./db";
 import router from "next/router";
 import analytics from "./analytics";
-import {
-	Provider,
-	User,
-} from "@supabase/supabase-js";
+import { Provider, User } from "@supabase/supabase-js";
 
 // `user` will be object, `null` (loading) or `false` (logged out)
 type UserOptional = User | null | false;
@@ -22,7 +19,9 @@ const MERGE_DB_USER = true;
 
 const ANALYTICS_IDENTIFY = true;
 
-const authContext = createContext<any>(null);
+type AuthContextType = ReturnType<typeof useAuthProvider>;
+
+const authContext = createContext<AuthContextType>(null!);
 export const useAuth = () => useContext(authContext);
 
 export function AuthProvider({ children }: any) {
@@ -67,17 +66,15 @@ function useAuthProvider() {
 	};
 
 	const signinWithProvider = (name: Provider) => {
-		return (
-			supabase.auth
-				.signInWithOAuth({
-					provider: name,
-					options: { redirectTo: `${window.location.origin}/dashboard` },
-				})
-				.then(handleError)
-				.then(() => {
-					return new Promise(() => null);
-				})
-		);
+		return supabase.auth
+			.signInWithOAuth({
+				provider: name,
+				options: { redirectTo: `${window.location.origin}/dashboard` },
+			})
+			.then(handleError)
+			.then(() => {
+				return new Promise(() => null);
+			});
 	};
 
 	const signout = () => {
@@ -85,15 +82,11 @@ function useAuthProvider() {
 	};
 
 	const sendPasswordResetEmail = (email: string) => {
-		return supabase.auth.resetPasswordForEmail(email).then(handleError);
-	};
-
-	const confirmPasswordReset = (password: string, code: string) => {
-		throw new Error("This functionality is not supported by Supabase");
+		return supabase.auth.resetPasswordForEmail(email, {redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/changepass`}).then(handleError);
 	};
 
 	const updatePassword = (password: string) => {
-		return supabase.auth.updateUser({ password }).then(handleError);
+		return supabase.auth.updateUser({ password: password }).then(handleError);
 	};
 
 	const updateProfile = async (data: any) => {
@@ -149,7 +142,6 @@ function useAuthProvider() {
 		signinWithProvider,
 		signout,
 		sendPasswordResetEmail,
-		confirmPasswordReset,
 		updatePassword,
 		updateProfile,
 	};
