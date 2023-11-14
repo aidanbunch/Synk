@@ -43,7 +43,7 @@ function useAuthProvider() {
 
 		if (!user?.email_confirmed_at) {
 			throw new Error(
-				"Thanks for signing up! Please check your email to complete the process."
+				"auth/email-not-confirmed",
 			);
 		}
 
@@ -82,7 +82,11 @@ function useAuthProvider() {
 	};
 
 	const sendPasswordResetEmail = (email: string) => {
-		return supabase.auth.resetPasswordForEmail(email, {redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/changepass`}).then(handleError);
+		return supabase.auth
+			.resetPasswordForEmail(email, {
+				redirectTo: `${window.location.origin}/auth/changepass`,
+			})
+			.then(handleError);
 	};
 
 	const updatePassword = (password: string) => {
