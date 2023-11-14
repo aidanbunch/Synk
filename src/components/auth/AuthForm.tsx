@@ -79,7 +79,7 @@ type AuthFormProps = {
 };
 
 export const AuthForm = ({ providers, authType, onAuth }: AuthFormProps) => {
-  const type = authType in optionsByType ? authType : "signin";
+	const type = authType in optionsByType ? authType : "signin";
 	const toast = useToast({
 		position: "top",
 		duration: 5000,
@@ -140,13 +140,21 @@ export const AuthForm = ({ providers, authType, onAuth }: AuthFormProps) => {
 	const onSubmit = ({ email, password, confirmPassword }: FormInputs) => {
 		setPending(true);
 		submitHandlersByType[type]({ email, password, confirmPassword }).catch(
-			(finish: any) => {
+			(error: Error) => {
 				setPending(false);
-				toast({
-					title: "Success",
-					description: finish.message,
-					status: "success",
-				});
+				if (error.message.includes("auth/email-not-confirmed")) {
+					toast({
+						title: "Success",
+						description: "Check your email for a confirmation link",
+						status: "success",
+					});
+				} else {
+					toast({
+						title: "Error",
+						description: error.message,
+						status: "error",
+					});
+				}
 			}
 		);
 	};

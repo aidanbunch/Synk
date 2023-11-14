@@ -14,7 +14,6 @@ import {
 import { AuthForm } from "@/components/auth/AuthForm";
 import { GoogleIcon } from "@/components/auth/ProviderIcons";
 import { ProviderItem } from "@/components/auth/OAuthButtonGroup";
-import { useAuth } from "@/utils/auth";
 
 const providers: ProviderItem[] = [
 	{ id: "google", name: "Google", icon: <GoogleIcon /> },

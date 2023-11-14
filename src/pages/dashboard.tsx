@@ -7,7 +7,7 @@ function Dashboard() {
     useEffect(() => {
         console.log(auth);
     }, [auth]);
-	return <Button onClick={() => {auth.signout()}}>{auth.user.email}</Button>;
+	return <Button onClick={() => {auth.signout()}}>{auth.user ? auth.user.email : ""}</Button>;
 }
 
 export default requireAuth(Dashboard);
