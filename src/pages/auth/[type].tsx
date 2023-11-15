@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Meta from "@/components/meta/Meta";
 import {

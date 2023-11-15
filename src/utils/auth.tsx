@@ -223,6 +223,7 @@ export const requireAuth = (Component: ComponentType) => {
 		if (!auth.user) {
 			// return a page loader/skeleton here, maybe taken as param like
 			// return <PageLoader />
+			return <></>
 		}
 
 		return <Component {...props} />;
