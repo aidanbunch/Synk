@@ -2,6 +2,9 @@
 
 .env
 
+# ignore scraped html files
+/processing/html/*.html
+
 # dependencies
 /node_modules
 /.pnp
