@@ -21,6 +21,27 @@ import { Edit } from "lucide-react";
 import { useEffect } from "react";
 
 function Dashboard() {
+
+    // useEffect(() => {
+    //     // Client-side fetch request
+
+    //     fetch("/api/flights", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //             attendees: 2,
+    //             departingAirport: "LAX",
+    //             arrivalAirport: "SFO",
+    //             departingDate: "2023-12-01",
+    //             arrivalDate: "2023-12-25",
+    //         }),
+    //     })
+    //         .then((res) => res.json())
+    //         .then((data) => console.log(data));
+    // }, []);
+
 	return (
 		<>
 			<Meta title="Dashboard" />
