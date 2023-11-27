@@ -29,7 +29,7 @@ function AuthPage() {
 			<Meta title="Authentication" />
 			<Box py={{ base: "12", md: "24" }} maxW="7xl" mx="auto">
 				<Stack direction="row" spacing="12">
-					<Flex flex="1">
+					<Flex flex="1" bg="white">
 						<AuthForm
 							providers={providers}
 							onAuth={handleAuth}
@@ -55,10 +55,10 @@ function AuthPage() {
 								/>
 								<Stack textAlign="center" spacing="1">
 									<Text textStyle="md" fontWeight="medium" color="fg.muted">
-										Simon Holzmayer
+										Aidan Bunch
 									</Text>
 									<Text fontWeight="medium" textStyle="sm" color="fg.muted">
-										simon@synk.com
+										aidan@synk.com
 									</Text>
 								</Stack>
 							</VStack>

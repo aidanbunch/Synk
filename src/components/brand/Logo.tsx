@@ -1,19 +1,28 @@
 import React from "react";
 import { HStack, useColorModeValue, Heading } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 type LogoProps = {
 	includeText?: boolean;
+	width?: string;
+	height?: string
 };
 
-function Logo({ includeText = false }: LogoProps) {
+function Logo({ includeText = false, width = "56", height = "64" }: LogoProps) {
 	const fillColor = useColorModeValue("black", "white");
+	const router = useRouter();
 
 	return (
-		<HStack>
+		<HStack
+			cursor="pointer"
+			onClick={() => {
+				router.push("/dashboard");
+			}}
+		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				width="56"
-				height="64"
+				width={width}
+				height={height}
 				viewBox="0 0 56 64"
 				fill="none"
 			>
@@ -26,13 +35,7 @@ function Logo({ includeText = false }: LogoProps) {
 					fill={fillColor}
 				/>
 			</svg>
-			{includeText && (
-				<Heading
-					color={fillColor}
-				>
-					Synk
-				</Heading>
-			)}
+			{includeText && <Heading color={fillColor} size="lg">Synk</Heading>}
 		</HStack>
 	);
 }
