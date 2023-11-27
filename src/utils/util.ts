@@ -66,3 +66,18 @@ export function usePrevious(state: any) {
 	});
 	return ref.current;
 }
+
+// This function checks if the input date is before the compare date.
+// It returns true if the input date is before the compare date, otherwise it returns false.
+export function isDateBefore(inputDate: Date, compareDate: Date) {
+	const inputTime = inputDate.getTime();
+	const compareTime = compareDate.getTime();
+	return inputTime < compareTime;
+}
+
+// function to check if input date and compare date are the same day
+export function isSameDay(inputDate: Date, compareDate: Date) {
+	const inputTime = inputDate.getTime();
+	const compareTime = compareDate.getTime();
+	return inputTime === compareTime;
+}
