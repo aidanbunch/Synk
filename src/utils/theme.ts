@@ -8,11 +8,11 @@ export const theme = extendTheme({
 	semanticTokens: {
 		colors: {
 		  // accent semantic tokens
-		  accent: { default: 'teal.500', _dark: 'teal.300' },
-		  'accent-emphasis': { default: 'teal.700', _dark: 'teal.200' },
-		  'accent-static': 'teal.500',
-		  'accent-muted': { default: 'teal.300', _dark: 'teal.200' },
-		  'accent-subtle': { default: 'teal.50', _dark: 'teal.800' },
+		  accent: { default: 'blue.500', _dark: 'blue.300' },
+		  'accent-emphasis': { default: 'blue.700', _dark: 'blue.200' },
+		  'accent-static': 'blue.500',
+		  'accent-muted': { default: 'blue.300', _dark: 'blue.200' },
+		  'accent-subtle': { default: 'blue.50', _dark: 'blue.800' },
 		  // foreground semantic tokens
 		  fg: { default: 'gray.700', _dark: 'gray.100' },
 		  'fg-emphasis': { default: 'gray.900', _dark: 'gray.200' },
