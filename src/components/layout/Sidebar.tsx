@@ -2,7 +2,6 @@ import {
 	Avatar,
 	Box,
 	Button,
-	Divider,
 	HStack,
 	IconButton,
 	Menu,
@@ -14,6 +13,7 @@ import {
 	Text,
 	VStack,
 	Image,
+	AspectRatio,
 } from "@chakra-ui/react";
 import { MoreVertical } from "lucide-react";
 import Logo from "../brand/Logo";
@@ -42,18 +42,20 @@ export const Sidebar = () => {
 					<Box />
 					<Button>Create Event</Button>
 					<Link href="/dashboard" passHref legacyBehavior>
-						<SidebarButton as="a" textColor="fg-subtle">My Events</SidebarButton>
+						<SidebarButton as="a" textColor="fg-subtle">
+							My Events
+						</SidebarButton>
 					</Link>
 					<Stack spacing="4" divider={<StackDivider />}>
 						<Box />
 						<HStack spacing="5">
-							<Image
-								alt=""
-								fallbackSrc="https://via.placeholder.com/53"
-								height="14"
-								width="14"
-								borderRadius="md"
-							/>
+							<AspectRatio ratio={4 / 3} width="14" height="14">
+								<Image
+									alt=""
+									fallbackSrc="https://www.tripsavvy.com/thmb/LvHd8jPLcmSgH3pnyf8Cy4pAw4s=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/taipei101-tower-taiwan-56ccb69b5f9b5879cc5b6f0a.jpg"
+									borderRadius="md"
+								/>
+							</AspectRatio>
 							<VStack alignItems={"start"} spacing="0">
 								<Text color="fg-subtle" fontSize="sm">
 									LavaLab
@@ -64,12 +66,12 @@ export const Sidebar = () => {
 						<Box />
 					</Stack>
 					<VStack spacing="0" alignItems="start">
-					<Link href="/dashboard" passHref legacyBehavior>
-						<SidebarButton as="a">Event Summary</SidebarButton>
-					</Link>
-					<Link href="/dashboard" passHref legacyBehavior>
-						<SidebarButton as="a">Settings</SidebarButton>
-					</Link>
+						<Link href="/dashboard" passHref legacyBehavior>
+							<SidebarButton as="a">Event Summary</SidebarButton>
+						</Link>
+						<Link href="/dashboard" passHref legacyBehavior>
+							<SidebarButton as="a">Settings</SidebarButton>
+						</Link>
 					</VStack>
 				</Stack>
 			</Stack>
