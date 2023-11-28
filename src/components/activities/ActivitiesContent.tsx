@@ -74,7 +74,7 @@ function ActivitiesContent() {
 					/>
 				</HStack>
 			</HStack>
-			<Divider style={{ borderColor: "#CED8E2" }} pt="4" />
+			<Divider borderColor="gray.300" pt="4" />
 			<SimpleGrid columns={4} spacing="10" py="5">
 				{Array(12).fill(<ActivityCard />)}
 			</SimpleGrid>

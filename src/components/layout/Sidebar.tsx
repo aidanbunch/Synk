@@ -20,6 +20,7 @@ import Logo from "../brand/Logo";
 import { SidebarButton } from "./SidebarButton";
 import { useAuth } from "@/utils/auth";
 import Link from "next/link";
+import SidebarEventCard from "./SidebarEventCard";
 
 export const Sidebar = () => {
 	const auth = useAuth();
@@ -48,21 +49,7 @@ export const Sidebar = () => {
 					</Link>
 					<Stack spacing="4" divider={<StackDivider />}>
 						<Box />
-						<HStack spacing="5">
-							<AspectRatio ratio={4 / 3} width="14" height="14">
-								<Image
-									alt=""
-									fallbackSrc="https://www.tripsavvy.com/thmb/LvHd8jPLcmSgH3pnyf8Cy4pAw4s=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/taipei101-tower-taiwan-56ccb69b5f9b5879cc5b6f0a.jpg"
-									borderRadius="md"
-								/>
-							</AspectRatio>
-							<VStack alignItems={"start"} spacing="0">
-								<Text color="fg-subtle" fontSize="sm">
-									LavaLab
-								</Text>
-								<Text fontSize="md">Fall &apos;23 Retreat</Text>
-							</VStack>
-						</HStack>
+						<SidebarEventCard />
 						<Box />
 					</Stack>
 					<VStack spacing="0" alignItems="start">
