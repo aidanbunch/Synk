@@ -7,11 +7,40 @@ type HotelRequestBody = {
   cityCode: string;
 };
 
+const delay = (delayInms) => {
+  return new Promise((resolve) => setTimeout(resolve, delayInms));
+};
+
+// Function to make a GET request to the Bing Image API
+async function getImageUrl(hotelName: string): Promise<string> {
+  let delayres = await delay(400); // Free version means I can't do so many fetches so I just hardcoded delay
+  const response = await fetch(
+    `https://api.bing.microsoft.com/v7.0/images/search?q=${encodeURIComponent(
+      hotelName
+    )}&count=1&offset=0&mkt=en-US&safeSearch=Moderate`,
+    {
+      method: "GET",
+      headers: {
+        "Ocp-Apim-Subscription-Key": process.env.BING_API_KEY_1 || "",
+      },
+    }
+  );
+
+  const data = await response.json();
+
+  if (data.value && data.value.length > 0) {
+    return data.value[0].contentUrl;
+  } else {
+    throw new Error("No image found");
+  }
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { attendees, cityCode } = req.body as HotelRequestBody;
+  const { attendees, cityCode } = req.body as HotelRequestBody; // hm it seemed that req.query
+  // may have worked when I test with a URL insetad of req.body
 
   try {
     var amadeus = new Amadeus({
@@ -22,7 +51,7 @@ export default async function handler(
     try {
       // Hotel ID Search
       const HotelIDs = await amadeus.referenceData.locations.hotels.byCity.get({
-        cityCode: "LAX", // Change later
+        cityCode: cityCode,
       });
 
       // Become CSV of hotelIDs
@@ -38,30 +67,25 @@ export default async function handler(
       });
 
       const hotelOffers = hotelOfferALL.data.slice(0, 8);
-
       const hotelNamesAndPrices = hotelOffers.map((offer) => ({
         hotelName: offer.hotel.name,
-        totalPrice: offer.offers[0].price.total,
+        totalPrice: String(Number(offer.offers[0].price.total) * attendees),
       }));
 
-      const result = hotelNamesAndPrices;
+      // Array to hold the image URLs
+      const imageUrls: string[] = [];
 
-      /*
-      // Departing flight offers
-      const departingResponse = await amadeus.shopping.flightOffersSearch.get({
-        originLocationCode: departingAirport,
-        destinationLocationCode: arrivalAirport,
-        departureDate: departingDate,
-        adults: attendees,
-      });
+      // Use the function to make a request for each hotel
+      for (const hotel of hotelNamesAndPrices) {
+        const imageUrl = await getImageUrl(hotel.hotelName);
+        imageUrls.push(imageUrl);
+      }
 
-      // Construct a JSON object to return them with the pricing information
-      const result = {
-        departing: departingOffers,
-        arrival: arrivalOffers,
-      };
-
-      */
+      // Add the image URLs to the hotel names and prices
+      const result = hotelNamesAndPrices.map((hotel, index) => ({
+        ...hotel,
+        imageUrl: imageUrls[index],
+      }));
 
       res.status(200).json(result);
     } catch (error: any) {
