@@ -7,15 +7,26 @@ import {
 	Select,
 	Spacer,
 	Box,
-    Icon,
-    Center,
-    Heading,
-    Divider
+	Icon,
+	Center,
+	Heading,
+	Divider,
 } from "@chakra-ui/react";
 import { Edit } from "lucide-react";
 import FlightCard from "./FlightCard";
+import { AirportCodeTypes } from "@/utils/filterTypes";
 
-function TravelContent() {
+type TravelContentProps = {
+	initialAttendees: number;
+	initialDepartureAirport: AirportCodeTypes;
+	initialDestinationAirport: AirportCodeTypes;
+};
+
+function TravelContent({
+	initialAttendees,
+	initialDepartureAirport,
+	initialDestinationAirport,
+}: TravelContentProps) {
 	return (
 		<Stack p="5">
 			<HStack spacing="5">
@@ -26,7 +37,7 @@ function TravelContent() {
 						colorScheme="gray"
 						_hover={{}}
 					>
-						23 Attendees
+						{initialAttendees} Attendees
 					</Button>
 					<IconButton
 						bgColor="white"
@@ -38,7 +49,7 @@ function TravelContent() {
 				</ButtonGroup>
 				<Select
 					placeholder="Departure Airport"
-					defaultValue="lax"
+					defaultValue={initialDepartureAirport}
 					id="location"
 					bgColor="white"
 				>
@@ -52,7 +63,7 @@ function TravelContent() {
 				</Select>
 				<Select
 					placeholder="Destination Airport"
-					defaultValue="JFK"
+					defaultValue={initialDestinationAirport}
 					id="location"
 					bgColor="white"
 				>
@@ -72,7 +83,19 @@ function TravelContent() {
 					>
 						Departures
 					</Heading>
-					<Stack spacing="5">{Array(5).fill(<FlightCard />)}</Stack>
+					<Stack spacing="5">
+						{Array(5).fill(
+							<FlightCard
+								startingTime="8:05 AM"
+								endingTime="9:30 AM"
+								duration="1 hr, 25 min"
+								price={1760}
+								tickets={10}
+								airlineName="United Airlines"
+                                airlineLogo=""
+							/>
+						)}
+					</Stack>
 				</Stack>
 				<Center height="550px" width="60px">
 					<Divider orientation="vertical" style={{ borderColor: "#CED8E2" }} />
@@ -86,7 +109,19 @@ function TravelContent() {
 					>
 						Arrivals
 					</Heading>
-					<Stack spacing="5">{Array(5).fill(<FlightCard />)}</Stack>
+					<Stack spacing="5">
+						{Array(5).fill(
+							<FlightCard
+								startingTime="8:05 AM"
+								endingTime="9:30 AM"
+								duration="1 hr, 25 min"
+								price={1760}
+								tickets={10}
+								airlineName="United Airlines"
+                                airlineLogo=""
+							/>
+						)}
+					</Stack>
 				</Stack>
 			</HStack>
 			<HStack>

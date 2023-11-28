@@ -19,7 +19,12 @@ function EventPage() {
 								We Recommend
 							</Heading>
 							<Stack>
-								<EventCard size="lg" />
+								<EventCard
+									organizationName="LavaLab"
+									eventName="Fall '23 Retreat"
+									totalPrice={1000}
+									size="lg"
+								/>
 							</Stack>
 						</Stack>
 						<Stack spacing="5">
@@ -27,7 +32,12 @@ function EventPage() {
 								Create your Own Plan
 							</Heading>
 							<Stack>
-								<EventCard size="lg" />
+								<EventCard
+									organizationName="LavaLab"
+									eventName="Fall '23 Retreat"
+									totalPrice={1000}
+									size="lg"
+								/>
 							</Stack>
 						</Stack>
 					</Stack>

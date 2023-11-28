@@ -1,3 +1,4 @@
+import { formatPrice } from "@/utils/util";
 import {
 	Text,
 	Spacer,
@@ -10,26 +11,39 @@ import {
 } from "@chakra-ui/react";
 import { Heart } from "lucide-react";
 
-function HotelCard() {
+type HotelCardProps = {
+	name: string;
+	image: string;
+	pricePerNight: number;
+	numberOfGuests: number;
+};
+
+function HotelCard({
+	name,
+	image,
+	pricePerNight,
+	numberOfGuests,
+}: HotelCardProps) {
 	return (
 		<Card cursor="pointer">
 			<AspectRatio width="100%" ratio={4 / 3}>
 				<Image
+					src={image}
 					fallbackSrc="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/2e/79/34/the-grand-hotel-club.jpg?w=1200&h=-1&s=1"
 					alt="Green double couch with wooden legs"
 					borderRadius="lg"
 				/>
 			</AspectRatio>
 			<Stack px="5" pt="4" spacing="1" pb="0">
-				<Text fontWeight="medium">Cozy Dome</Text>
+				<Text fontWeight="medium">{name}</Text>
 				<Text fontWeight="regular" fontSize="sm" color={"fg-subtle"}>
-					25 Guests
+					{numberOfGuests} Guests
 				</Text>
 			</Stack>
 			<CardFooter pt="0">
 				<Spacer />
 				<Text fontWeight="regular" fontSize="sm">
-					$3300/night
+					{formatPrice(pricePerNight)}/night
 				</Text>
 			</CardFooter>
 			<IconButton

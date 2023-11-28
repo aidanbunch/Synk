@@ -1,3 +1,4 @@
+import { formatPrice } from "@/utils/util";
 import {
 	Card,
 	CardBody,
@@ -8,7 +9,25 @@ import {
 	Text,
 } from "@chakra-ui/react";
 
-function OverviewFlightCard() {
+type OverviewFlightCardProps = {
+	startingTime: string; // 8:05 AM format
+	endingTime: string; // 9:30 AM format
+	duration: string; // 1 hr, 25 min format
+	price: number;
+	tickets: number;
+	airlineName: string;
+	airlineLogo: string;
+};
+
+function OverviewFlightCard({
+	startingTime,
+	endingTime,
+	duration,
+	price,
+	tickets,
+	airlineName,
+	airlineLogo,
+}: OverviewFlightCardProps) {
 	return (
 		<Card borderRadius="lg" cursor="pointer">
 			<CardBody py="-2" px="3">
@@ -16,6 +35,7 @@ function OverviewFlightCard() {
 					<HStack spacing="4">
 						<AspectRatio height="25px" width="25px" ratio={16 / 9}>
 							<Image
+								src={airlineLogo}
 								fallbackSrc="https://companyurlfinder.com/marketing/assets/img/logos/united.com.png"
 								alt="naruto"
 								objectFit="cover"
@@ -25,17 +45,17 @@ function OverviewFlightCard() {
 						<Stack spacing="0" align="start" py="2">
 							<HStack spacing="10">
 								<Text fontWeight="medium" fontSize="xs">
-									8:05 AM - 9:30 AM
+									{startingTime} - {endingTime}
 								</Text>
 								<Text fontWeight="medium" fontSize="xs">
-									1 hr, 25 min
+									{duration}
 								</Text>
 								<Text fontWeight="medium" fontSize="xs">
-									$1760 (10 people)
+									{formatPrice(price)} ({tickets} people)
 								</Text>
 							</HStack>
 							<Text color="fg-subtle" textAlign="start" fontSize="xs">
-								United Airlines
+								{airlineName}
 							</Text>
 						</Stack>
 					</HStack>

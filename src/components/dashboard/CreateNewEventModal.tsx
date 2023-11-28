@@ -31,23 +31,35 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { isDateBefore, isSameDay } from "@/utils/util";
+import { AirportCodeTypes } from "@/utils/filterTypes";
 
 const selectablePlans = ["stay", "travel", "activities"] as const;
-type PlanTypes = typeof selectablePlans[number];
+type PlanTypes = (typeof selectablePlans)[number];
 type PlanSelectionStatus = { [key in PlanTypes]: boolean };
 
 interface NewEventFormInputs {
-	planType: PlanSelectionStatus;
+	planSelections: PlanSelectionStatus;
 	startDate: Date;
 	endDate: Date;
 	eventName: string;
 	numAttendees: number;
 	budget: number;
-	location: string;
+	eventLocation: string;
+	departingLocation: string;
 	idealEvent: string;
 }
 
-export const CreateNewEventModal = () => {
+type CreateNewEventModalProps = {
+	onClose: () => void;
+	isOpen: boolean;
+	onSubmit: (data: NewEventFormInputs) => void;
+};
+
+export const CreateNewEventModal = ({
+	onClose,
+	isOpen,
+	onSubmit,
+}: CreateNewEventModalProps) => {
 	const {
 		handleSubmit,
 		register,
@@ -56,7 +68,7 @@ export const CreateNewEventModal = () => {
 		control,
 	} = useForm({
 		defaultValues: {
-			planType: {
+			planSelections: {
 				stay: false,
 				travel: false,
 				activities: false,
@@ -67,33 +79,36 @@ export const CreateNewEventModal = () => {
 			eventName: "",
 			numAttendees: 1,
 			budget: 5000,
-			location: "",
+			eventLocation: "",
+			departingLocation: "",
 			idealEvent: "",
 		},
 	});
 
-	const onSubmit = ({
-		planType,
+	const testSubmit = ({
+		planSelections,
 		startDate,
 		endDate,
 		eventName,
 		numAttendees,
 		budget,
-		location,
+		eventLocation,
+		departingLocation,
 		idealEvent,
 	}: NewEventFormInputs) => {
-		console.log("planType", planType);
+		console.log("planSelections", planSelections);
 		console.log("startDate", startDate);
 		console.log("endDate", endDate);
 		console.log("eventName", eventName);
 		console.log("numAttendees", numAttendees);
 		console.log("budget", budget);
-		console.log("location", location);
+		console.log("eventLocation", eventLocation);
+		console.log("departingLocation", departingLocation);
 		console.log("idealEvent", idealEvent);
 	};
 
 	return (
-		<Modal isOpen={true} onClose={() => {}} isCentered size="5xl">
+		<Modal isOpen={isOpen} onClose={onClose} isCentered size="5xl">
 			<ModalOverlay />
 			<ModalContent>
 				<form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -217,17 +232,17 @@ export const CreateNewEventModal = () => {
 								/>
 								<Controller
 									control={control}
-									name="location"
+									name="eventLocation"
 									rules={{ required: "Please enter a location." }}
 									render={({
 										field: { onChange, onBlur, value, name, ref },
 										fieldState: { error },
 									}) => (
 										<FormControl isRequired isInvalid={error ? true : false}>
-											<FormLabel>Location</FormLabel>
+											<FormLabel>Event Location</FormLabel>
 											<Select
 												placeholder="Where will your event be held?"
-												id="location"
+												id="eventLocation"
 												ref={ref}
 												value={value}
 												onBlur={onBlur}
@@ -238,7 +253,7 @@ export const CreateNewEventModal = () => {
 												<option value="nyc">New York, NY</option>
 												<option value="sf">San Francisco, CA</option>
 											</Select>
-											{errors.location && (
+											{errors.eventLocation && (
 												<FormErrorMessage>
 													{error && error.message}
 												</FormErrorMessage>
@@ -246,6 +261,7 @@ export const CreateNewEventModal = () => {
 										</FormControl>
 									)}
 								/>
+
 								<FormControl
 									isRequired
 									isInvalid={errors.idealEvent ? true : false}
@@ -271,7 +287,7 @@ export const CreateNewEventModal = () => {
 									)}
 								</FormControl>
 							</Stack>
-							<Stack minWidth={"40%"}>
+							<Stack py="5">
 								<HStack spacing="5">
 									<Controller
 										control={control}
@@ -354,15 +370,51 @@ export const CreateNewEventModal = () => {
 										)}
 									/>
 								</HStack>
+								<Controller
+									control={control}
+									name="departingLocation"
+									rules={{ required: "Please enter a location." }}
+									render={({
+										field: { onChange, onBlur, value, name, ref },
+										fieldState: { error },
+									}) => (
+										<FormControl isRequired isInvalid={error ? true : false}>
+											<FormLabel>Departing Location</FormLabel>
+											<Select
+												placeholder="Where will you leave from?"
+												id="departingLocation"
+												ref={ref}
+												value={value}
+												onBlur={onBlur}
+												onChange={onChange}
+												name={name}
+												bgColor="white"
+											>
+												<option value="ATL">Atlanta, GA</option>
+												<option value="LAX">Los Angeles, CA</option>
+												<option value="ORD">Chicago, IL</option>
+												<option value="DFW">Dallas, TX</option>
+												<option value="DEN">Denver, CO</option>
+												<option value="JFK">New York City, NY</option>
+												<option value="SFO">San Francisco, CA</option>
+											</Select>
+											{errors.departingLocation && (
+												<FormErrorMessage>
+													{error && error.message}
+												</FormErrorMessage>
+											)}
+										</FormControl>
+									)}
+								/>
 								<FormControl
 									isRequired
-									isInvalid={errors.planType ? true : false}
+									isInvalid={errors.planSelections ? true : false}
 								>
 									<FormLabel>What would you like to plan?</FormLabel>
 									<SimpleGrid columns={3} spacing="5">
 										<Controller
 											control={control}
-											name="planType"
+											name="planSelections"
 											rules={{
 												validate: (value) => {
 													return (
@@ -419,9 +471,9 @@ export const CreateNewEventModal = () => {
 											)}
 										/>
 									</SimpleGrid>
-									{errors.planType && (
+									{errors.planSelections && (
 										<FormErrorMessage>
-											{errors.planType.message}
+											{errors.planSelections.message}
 										</FormErrorMessage>
 									)}
 								</FormControl>

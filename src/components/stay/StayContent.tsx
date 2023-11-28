@@ -7,13 +7,19 @@ import {
 	Spacer,
 	Box,
 	SimpleGrid,
-    ButtonGroup,
-    Icon
+	ButtonGroup,
+	Icon,
 } from "@chakra-ui/react";
 import HotelCard from "./HotelCard";
 import { Edit } from "lucide-react";
+import { EventCityTypes } from "@/utils/filterTypes";
 
-function StayContent() {
+type StayContentProps = {
+	initialAttendees: number;
+	initialCity: EventCityTypes;
+};
+
+function StayContent({ initialAttendees, initialCity }: StayContentProps) {
 	return (
 		<Stack p="5">
 			<HStack>
@@ -24,7 +30,7 @@ function StayContent() {
 						colorScheme="gray"
 						_hover={{}}
 					>
-						23 Attendees
+						{initialAttendees} Attendees
 					</Button>
 					<IconButton
 						bgColor="white"
@@ -36,7 +42,7 @@ function StayContent() {
 				</ButtonGroup>
 				<Select
 					placeholder="City Code"
-					defaultValue={"nyc"}
+					defaultValue={initialCity}
 					id="location"
 					bgColor="white"
 				>
@@ -47,7 +53,14 @@ function StayContent() {
 				<Box width="300%" />
 			</HStack>
 			<SimpleGrid columns={4} spacing="10" py="5">
-				{Array(8).fill(<HotelCard />)}
+				{Array(8).fill(
+					<HotelCard
+						name="Cozy Dome"
+						image=""
+						pricePerNight={3300}
+						numberOfGuests={25}
+					/>
+				)}
 			</SimpleGrid>
 			<HStack>
 				<Spacer />

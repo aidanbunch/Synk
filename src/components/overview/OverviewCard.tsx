@@ -9,19 +9,35 @@ import {
 	Card,
 } from "@chakra-ui/react";
 import { Heart } from "lucide-react";
+import { formatPrice } from "@/utils/util";
 
-const OverviewCard = () => {
+type OverviewCardProps = {
+	isActivity: boolean; // otherwise, is hotel
+	name: string;
+	price: number; // per night or per guest
+	image: string;
+	subheadingAmount: number; // either number of guests or duration
+};
+
+const OverviewCard = ({
+	isActivity,
+	name,
+	price,
+	image,
+	subheadingAmount,
+}: OverviewCardProps) => {
 	return (
 		<Card
 			borderRadius="lg"
 			overflow="hidden"
 			position="relative"
 			shadow="sm"
-            cursor="pointer"
+			cursor="pointer"
 		>
-			<AspectRatio ratio={4/2}>
+			<AspectRatio ratio={4 / 2}>
 				<Image
-					src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/2e/79/34/the-grand-hotel-club.jpg?w=1200&h=-1&s=1"
+					src={image}
+					fallbackSrc="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/2e/79/34/the-grand-hotel-club.jpg?w=1200&h=-1&s=1"
 					alt="Property Image"
 				/>
 			</AspectRatio>
@@ -29,33 +45,34 @@ const OverviewCard = () => {
 			<Box p="6">
 				<HStack justifyContent="space-between" spacing="5">
 					<VStack align="start" spacing="0">
-						<Box
-							mt="1"
-							fontWeight="bold"
-							as="h4"
-							isTruncated
-							fontSize="xs"
-						>
-							Large Cabin
+						<Box mt="1" fontWeight="bold" as="h4" isTruncated fontSize="xs">
+							{name}
 						</Box>
 						<Box dir="flex" alignItems="baseline">
 							<Box
 								mt="1"
 								fontWeight="semibold"
-                                color="fg-subtle"
+								color="fg-subtle"
 								as="h4"
 								lineHeight="tight"
 								isTruncated
 								fontSize="xs"
 							>
-								20 Guests
+								{subheadingAmount} {isActivity ? "hours" : "Guests"}
 							</Box>
 						</Box>
 					</VStack>
 					<VStack spacing={1} align="end">
-						<Box fontSize="xs" fontWeight="semibold">$3,800/</Box>
-						<Box as="span" color="fg-subtle" fontSize="xs" fontWeight="semibold">
-							night
+						<Box mt="1" fontSize="xs" fontWeight="semibold">
+							{formatPrice(price)}/
+						</Box>
+						<Box
+							as="span"
+							color="fg-subtle"
+							fontSize="xs"
+							fontWeight="semibold"
+						>
+							{isActivity ? "person" : "night"}
 						</Box>
 					</VStack>
 				</HStack>

@@ -4,7 +4,7 @@ import {
 	SimpleGrid,
 	Checkbox,
 	Heading,
-	Divider
+	Divider,
 } from "@chakra-ui/react";
 import OverviewCard from "./OverviewCard";
 
@@ -22,8 +22,20 @@ function OverviewActivitiesSection() {
 				>
 					<Checkbox size="lg" colorScheme="gray" defaultChecked />
 					<SimpleGrid columns={2} spacing="5">
-						<OverviewCard />
-						<OverviewCard />
+						<OverviewCard
+							isActivity
+							name="Relaxing Hike"
+							price={10}
+							image=""
+							subheadingAmount={4}
+						/>
+						<OverviewCard
+							isActivity
+							name="Cozy Dome"
+							price={10}
+							image=""
+							subheadingAmount={4}
+						/>
 					</SimpleGrid>
 				</HStack>
 			</Stack>
