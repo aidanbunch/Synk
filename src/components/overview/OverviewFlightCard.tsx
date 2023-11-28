@@ -1,20 +1,20 @@
 import {
-	AspectRatio,
 	Card,
 	CardBody,
-	HStack,
-	Image,
 	Stack,
+	HStack,
+	AspectRatio,
+	Image,
 	Text,
 } from "@chakra-ui/react";
 
-function FlightCard() {
+function OverviewFlightCard() {
 	return (
 		<Card borderRadius="lg" cursor="pointer">
-			<CardBody py="4" px="3">
+			<CardBody py="-2" px="3">
 				<Stack>
 					<HStack spacing="4">
-						<AspectRatio height="55px" width="55px" ratio={16 / 9}>
+						<AspectRatio height="25px" width="25px" ratio={16 / 9}>
 							<Image
 								fallbackSrc="https://companyurlfinder.com/marketing/assets/img/logos/united.com.png"
 								alt="naruto"
@@ -24,17 +24,17 @@ function FlightCard() {
 						</AspectRatio>
 						<Stack spacing="0" align="start" py="2">
 							<HStack spacing="10">
-								<Text fontWeight="medium" fontSize="sm">
+								<Text fontWeight="medium" fontSize="xs">
 									8:05 AM - 9:30 AM
 								</Text>
-								<Text fontWeight="medium" fontSize="sm">
+								<Text fontWeight="medium" fontSize="xs">
 									1 hr, 25 min
 								</Text>
-								<Text fontWeight="medium" fontSize="sm">
+								<Text fontWeight="medium" fontSize="xs">
 									$1760 (10 people)
 								</Text>
 							</HStack>
-							<Text color="fg-subtle" textAlign="start" fontSize="sm">
+							<Text color="fg-subtle" textAlign="start" fontSize="xs">
 								United Airlines
 							</Text>
 						</Stack>
@@ -45,4 +45,4 @@ function FlightCard() {
 	);
 }
 
-export default FlightCard;
+export default OverviewFlightCard;

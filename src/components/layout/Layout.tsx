@@ -1,13 +1,6 @@
 import {
 	Flex,
-	Container,
 	Box,
-	Tabs,
-	TabList,
-	Tab,
-	TabIndicator,
-	TabPanels,
-	TabPanel,
 } from "@chakra-ui/react";
 import { Sidebar } from "./Sidebar";
 

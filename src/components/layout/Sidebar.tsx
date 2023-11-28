@@ -52,7 +52,7 @@ export const Sidebar = () => {
 							<AspectRatio ratio={4 / 3} width="14" height="14">
 								<Image
 									alt=""
-									fallbackSrc="https://via.placeholder.com/53"
+									fallbackSrc="https://www.tripsavvy.com/thmb/LvHd8jPLcmSgH3pnyf8Cy4pAw4s=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/taipei101-tower-taiwan-56ccb69b5f9b5879cc5b6f0a.jpg"
 									borderRadius="md"
 								/>
 							</AspectRatio>
