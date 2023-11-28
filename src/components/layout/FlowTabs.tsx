@@ -1,4 +1,3 @@
-import React from "react";
 import {
 	Heading,
 	Tabs,
@@ -7,7 +6,6 @@ import {
 	TabIndicator,
 	TabPanels,
 	TabPanel,
-	Text,
 } from "@chakra-ui/react";
 
 type FlowTabsProps = {

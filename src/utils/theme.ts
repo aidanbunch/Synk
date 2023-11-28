@@ -14,7 +14,7 @@ export const theme = extendTheme({
 		  'accent-muted': { default: 'blue.300', _dark: 'blue.200' },
 		  'accent-subtle': { default: 'blue.50', _dark: 'blue.800' },
 		  // foreground semantic tokens
-		  fg: { default: 'gray.700', _dark: 'gray.100' },
+		  fg: { default: 'gray.100', _dark: 'gray.900' },
 		  'fg-emphasis': { default: 'gray.900', _dark: 'gray.200' },
 		  'fg-muted': { default: 'gray.600', _dark: 'gray.400' },
 		  'fg-subtle': { default: 'gray.500', _dark: 'gray.300' },

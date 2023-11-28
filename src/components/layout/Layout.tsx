@@ -14,7 +14,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 			overflowY="auto"
 		>
 			<Sidebar />
-			<Box bg="gray.100" flex="1">
+			<Box bg="fg" flex="1">
 				<Box bg="bg-canvas" height="full">
 					{children}
 				</Box>
