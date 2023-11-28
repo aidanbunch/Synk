@@ -6,18 +6,17 @@ import {
 	VStack,
 	IconButton,
 	AspectRatio,
+	Card,
 } from "@chakra-ui/react";
 import { Heart } from "lucide-react";
 
 const OverviewCard = () => {
 	return (
-		<Box
-			borderWidth="1px"
+		<Card
 			borderRadius="lg"
 			overflow="hidden"
 			position="relative"
-			shadow={"sm"}
-			bgColor="white"
+			shadow="sm"
             cursor="pointer"
 		>
 			<AspectRatio ratio={4/2}>
@@ -75,7 +74,7 @@ const OverviewCard = () => {
 					background: "gray.300",
 				}}
 			/>
-		</Box>
+		</Card>
 	);
 };
 export default OverviewCard;

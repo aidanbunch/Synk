@@ -1,10 +1,10 @@
 import {
 	Stack,
-	Divider,
 	HStack,
 	SimpleGrid,
 	Checkbox,
 	Heading,
+	Divider
 } from "@chakra-ui/react";
 import OverviewCard from "./OverviewCard";
 

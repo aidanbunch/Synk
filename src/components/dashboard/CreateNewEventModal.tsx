@@ -99,7 +99,7 @@ export const CreateNewEventModal = () => {
 				<form onSubmit={handleSubmit(onSubmit)} noValidate>
 					<ModalHeader>Create a New Event</ModalHeader>
 					<ModalCloseButton />
-					<ModalBody bgColor="gray.100">
+					<ModalBody bgColor="fg">
 						<HStack spacing="20">
 							<Stack minWidth={"40%"}>
 								<FormControl
