@@ -43,7 +43,11 @@ function Dashboard() {
 						</Heading>
 						<Stack>
 							{/* map events here */}
-							<EventCard />
+							<EventCard
+								organizationName="LavaLab"
+								eventName="Fall '23 Retreat"
+								totalPrice={1000}
+							/>
 						</Stack>
 					</Stack>
 				</Container>

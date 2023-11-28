@@ -17,7 +17,17 @@ import ActivityCard from "./ActivityCard";
 import { Search } from "lucide-react";
 import FilterCheckbox from "./FilterCheckbox";
 
-function ActivitiesContent() {
+type ActivitiesContentProps = {
+	initialEventCity: string;
+	spentBudget: number;
+	totalBudget: number;
+};
+
+function ActivitiesContent({
+	initialEventCity,
+	spentBudget,
+	totalBudget,
+}: ActivitiesContentProps) {
 	return (
 		<Stack px="5" py="0">
 			<HStack spacing="6">
@@ -47,7 +57,7 @@ function ActivitiesContent() {
 			<HStack pt="2" justifyContent="space-between">
 				<Select
 					placeholder="City Code"
-					defaultValue={"nyc"}
+					defaultValue={initialEventCity}
 					id="location"
 					bgColor="white"
 					maxWidth="200"
@@ -67,7 +77,7 @@ function ActivitiesContent() {
 						Budget
 					</Text>
 					<Progress
-						value={50}
+						value={(spentBudget / totalBudget) * 100}
 						width="300px"
 						style={{ background: "#E6E6E3" }}
 						borderRadius="md"
@@ -76,7 +86,14 @@ function ActivitiesContent() {
 			</HStack>
 			<Divider borderColor="gray.300" pt="4" />
 			<SimpleGrid columns={4} spacing="10" py="5">
-				{Array(12).fill(<ActivityCard />)}
+				{Array(12).fill(
+					<ActivityCard
+						name="Cozy Dome"
+						numberOfGuests={25}
+						pricePerNight={3300}
+						image=""
+					/>
+				)}
 			</SimpleGrid>
 			<HStack>
 				<Spacer />

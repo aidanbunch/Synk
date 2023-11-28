@@ -49,7 +49,12 @@ export const Sidebar = () => {
 					</Link>
 					<Stack spacing="4" divider={<StackDivider />}>
 						<Box />
-						<SidebarEventCard />
+						{/* map here, inside of boxes */}
+						<SidebarEventCard
+							organizationName="LavaLab"
+							eventName="Fall '23 Retreat"
+							image=""
+						/>
 						<Box />
 					</Stack>
 					<VStack spacing="0" alignItems="start">

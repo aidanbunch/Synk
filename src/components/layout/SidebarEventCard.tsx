@@ -1,20 +1,31 @@
 import { HStack, AspectRatio, Image, VStack, Text } from "@chakra-ui/react";
 
-function SidebarEventCard() {
+type SidebarEventCardProps = {
+	organizationName: string;
+	eventName: string;
+    image: string
+};
+
+function SidebarEventCard({
+	organizationName,
+	eventName,
+    image,
+}: SidebarEventCardProps) {
 	return (
-		<HStack spacing="5">
+		<HStack spacing="5" cursor="pointer">
 			<AspectRatio ratio={4 / 3} width="14" height="14">
 				<Image
 					alt=""
+                    src={image}
 					fallbackSrc="https://www.tripsavvy.com/thmb/LvHd8jPLcmSgH3pnyf8Cy4pAw4s=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/taipei101-tower-taiwan-56ccb69b5f9b5879cc5b6f0a.jpg"
 					borderRadius="md"
 				/>
 			</AspectRatio>
 			<VStack alignItems={"start"} spacing="0">
 				<Text color="fg-subtle" fontSize="sm">
-					LavaLab
+					{organizationName}
 				</Text>
-				<Text fontSize="md">Fall &apos;23 Retreat</Text>
+				<Text fontSize="md">{eventName}</Text>
 			</VStack>
 		</HStack>
 	);

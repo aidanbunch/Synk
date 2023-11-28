@@ -11,7 +11,15 @@ function OverviewTravelSection() {
 					{Array(2).fill(
 						<HStack spacing="25" width="100%">
 							<Checkbox size="lg" colorScheme="gray" defaultChecked />
-							<OverviewFlightCard />
+							<OverviewFlightCard
+								startingTime="8:05 AM"
+								endingTime="9:30 AM"
+								duration="1 hr, 25 min"
+								price={1760}
+								tickets={10}
+								airlineName="United Airlines"
+								airlineLogo=""
+							/>
 						</HStack>
 					)}
 				</Stack>

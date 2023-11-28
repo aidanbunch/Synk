@@ -1,3 +1,4 @@
+import { formatPrice } from "@/utils/util";
 import {
 	Card,
 	Image,
@@ -5,19 +6,26 @@ import {
 	HStack,
 	Spacer,
 	Icon,
-    Text,
-    Heading,
-    Stack
+	Text,
+	Stack,
 } from "@chakra-ui/react";
 import { Edit } from "lucide-react";
 
 type EventCardProps = {
-    size?: string;
-}
+	size?: EventCardSize;
+	organizationName: string;
+	eventName: string;
+	totalPrice: number;
+};
 
-type EventCardSize = "md" | "lg"
+type EventCardSize = "md" | "lg";
 
-function EventCard({ size = "md" }: EventCardProps) {
+function EventCard({
+	size = "md",
+	organizationName,
+	eventName,
+	totalPrice,
+}: EventCardProps) {
 	const isMd = size === "md";
 
 	return (
@@ -39,9 +47,11 @@ function EventCard({ size = "md" }: EventCardProps) {
 			<Stack py="5" px="10" width="full">
 				<HStack>
 					<Stack spacing="0">
-						<Text fontSize="2xl" fontWeight="semibold">Fall &apos;23 Retreat</Text>
+						<Text fontSize="2xl" fontWeight="semibold">
+							{eventName}
+						</Text>
 						<Text py="2" color="fg-subtle" fontSize="xl">
-							LavaLab
+							{organizationName}
 						</Text>
 					</Stack>
 					<Spacer />
@@ -50,9 +60,11 @@ function EventCard({ size = "md" }: EventCardProps) {
 				<Spacer />
 				<HStack>
 					<Spacer />
-					<Text fontWeight="medium" fontSize="xl">Total Price: </Text>
+					<Text fontWeight="medium" fontSize="xl">
+						Total Price:{" "}
+					</Text>
 					<Text py="2" color="fg-muted" fontSize="xl">
-						$1,000
+						{formatPrice(totalPrice)}
 					</Text>
 				</HStack>
 			</Stack>

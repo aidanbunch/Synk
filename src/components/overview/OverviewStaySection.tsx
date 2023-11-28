@@ -21,8 +21,20 @@ function OverviewStaySection() {
 				>
 					<Checkbox size="lg" colorScheme="gray" defaultChecked />
 					<SimpleGrid columns={2} spacing="5">
-						<OverviewCard />
-						<OverviewCard />
+						<OverviewCard
+							isActivity={false}
+							name="Cozy Dome"
+							price={3800}
+							image=""
+							subheadingAmount={20}
+						/>
+						<OverviewCard
+							isActivity={false}
+							name="Cozy Dome"
+							price={3800}
+							image=""
+							subheadingAmount={20}
+						/>
 					</SimpleGrid>
 				</HStack>
 			</Stack>

@@ -1,4 +1,6 @@
 import { useRef, useEffect } from "react";
+// @ts-ignore
+import * as fx from "money";
 import supabase from "./supabase";
 
 class FetchErrorResponse extends Error {
@@ -89,4 +91,15 @@ export function formatPrice(price: number): string {
 		minimumFractionDigits: 0,
 		maximumFractionDigits: 0,
 	}).format(price);
+}
+
+// Set the rates relative to EUR
+fx.rates = {
+	EUR: 1,
+	USD: 1.10, // This is the current rate.
+};
+
+// Function to convert EUR to USD
+export function convertEURToUSD(amount: number): number {
+	return fx.convert(amount, { from: "EUR", to: "USD" });
 }
