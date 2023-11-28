@@ -21,23 +21,25 @@ export default async function handler(
 
     try {
       // Hotel ID Search
-      const HotelID_ALL = await amadeus.referenceData.locations.hotel.get({
-        keyword: "Los Angeles", //cityCode,
-        subType: "HOTEL_LEISURE",
-      });
+      const HotelID_ALL =
+        await amadeus.referenceData.locations.hotels.byCity.get({
+          cityCode: "LAX", // Change later
+        });
 
       // Cut to 8 Hotels
       const HotelIDs = HotelID_ALL.data.slice(0, 8);
 
       // Initialize an empty array to store the results
-      const result = [];
+      //const result = [];
 
-      console.log(HotelIDs.length);
+      console.log("BTW:", HotelIDs);
 
+      /*
       // Iterate through each hotel
       for (let i = 0; i < HotelIDs.length; i++) {
         const hotel = HotelIDs[i];
-        const hotelId = hotel.hotelIds[0];
+        const hotelId = hotel.hotelId;
+        console.log("BTW:", hotelId);
 
         // Make a GET request for each hotel ID
         const hotelOffer = await amadeus.shopping.hotelOffers.get({
@@ -48,8 +50,15 @@ export default async function handler(
         // Add the result to the results array
         result.push(hotelOffer);
       }
+      */
 
-      res.status(200).json(result);
+      const hotelOffer = await amadeus.shopping.hotelOffersSearch.get({
+        hotelIds: "BWLAX459",
+        adults: "1",
+      });
+
+      const result = hotelOffer;
+      console.log("BTW:", result);
 
       /*
       // Departing flight offers
