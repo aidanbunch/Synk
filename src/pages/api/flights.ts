@@ -5,9 +5,9 @@ import Amadeus from "amadeus";
 type FlightRequestBody = {
 	attendees: number;
 	departingAirport: string;
-	arrivalAirport: string;
+	returnAirport: string;
 	departingDate: string;
-	arrivalDate: string;
+	returnDate: string;
 };
 
 export default async function handler(
@@ -17,9 +17,9 @@ export default async function handler(
 	const {
 		attendees,
 		departingAirport,
-		arrivalAirport,
+		returnAirport: destinationAirport,
 		departingDate,
-		arrivalDate,
+		returnDate,
 	} = req.body as FlightRequestBody;
 
 	try {
@@ -32,27 +32,27 @@ export default async function handler(
 			// Departing flight offers
 			const departingResponse = await amadeus.shopping.flightOffersSearch.get({
 				originLocationCode: departingAirport,
-				destinationLocationCode: arrivalAirport,
+				destinationLocationCode: destinationAirport,
 				departureDate: departingDate,
 				adults: attendees,
 			});
 
-			// Arrival flight offers
-			const arrivalResponse = await amadeus.shopping.flightOffersSearch.get({
-				originLocationCode: arrivalAirport,
+			// Return flight offers
+			const returnResponse = await amadeus.shopping.flightOffersSearch.get({
+				originLocationCode: destinationAirport,
 				destinationLocationCode: departingAirport,
-				departureDate: arrivalDate,
+				departureDate: returnDate,
 				adults: attendees,
 			});
 
 			// Get pricing for the first 5 offers from both requests
 			const departingOffers = departingResponse.data.slice(0, 5);
-			const arrivalOffers = arrivalResponse.data.slice(0, 5);
+			const returnOffers = returnResponse.data.slice(0, 5);
 
 			// Construct a JSON object to return them with the pricing information
 			const result = {
 				departing: departingOffers,
-				arrival: arrivalOffers,
+				return: returnOffers,
 			};
 
 			res.status(200).json(result);
@@ -60,7 +60,7 @@ export default async function handler(
 			console.log(error.response); //=> The response object with (un)parsed data
 			console.log(error.response.request); //=> The details of the request made
 			console.log(error.code); //=> A unique error code to identify the type of error
-			res.status(200).json(error.response);
+			res.status(500).json(error.response);
 		}
 	} catch (error: any) {
 		res.status(500).json({ message: error.message });

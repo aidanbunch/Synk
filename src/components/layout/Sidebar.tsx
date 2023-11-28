@@ -2,7 +2,6 @@ import {
 	Avatar,
 	Box,
 	Button,
-	Divider,
 	HStack,
 	IconButton,
 	Menu,
@@ -14,12 +13,14 @@ import {
 	Text,
 	VStack,
 	Image,
+	AspectRatio,
 } from "@chakra-ui/react";
 import { MoreVertical } from "lucide-react";
 import Logo from "../brand/Logo";
 import { SidebarButton } from "./SidebarButton";
 import { useAuth } from "@/utils/auth";
 import Link from "next/link";
+import SidebarEventCard from "./SidebarEventCard";
 
 export const Sidebar = () => {
 	const auth = useAuth();
@@ -42,34 +43,22 @@ export const Sidebar = () => {
 					<Box />
 					<Button>Create Event</Button>
 					<Link href="/dashboard" passHref legacyBehavior>
-						<SidebarButton as="a" textColor="fg-subtle">My Events</SidebarButton>
+						<SidebarButton as="a" textColor="fg-subtle">
+							My Events
+						</SidebarButton>
 					</Link>
 					<Stack spacing="4" divider={<StackDivider />}>
 						<Box />
-						<HStack spacing="5">
-							<Image
-								alt=""
-								fallbackSrc="https://via.placeholder.com/53"
-								height="14"
-								width="14"
-								borderRadius="md"
-							/>
-							<VStack alignItems={"start"} spacing="0">
-								<Text color="fg-subtle" fontSize="sm">
-									LavaLab
-								</Text>
-								<Text fontSize="md">Fall &apos;23 Retreat</Text>
-							</VStack>
-						</HStack>
+						<SidebarEventCard />
 						<Box />
 					</Stack>
 					<VStack spacing="0" alignItems="start">
-					<Link href="/dashboard" passHref legacyBehavior>
-						<SidebarButton as="a">Event Summary</SidebarButton>
-					</Link>
-					<Link href="/dashboard" passHref legacyBehavior>
-						<SidebarButton as="a">Settings</SidebarButton>
-					</Link>
+						<Link href="/dashboard" passHref legacyBehavior>
+							<SidebarButton as="a">Event Summary</SidebarButton>
+						</Link>
+						<Link href="/dashboard" passHref legacyBehavior>
+							<SidebarButton as="a">Settings</SidebarButton>
+						</Link>
 					</VStack>
 				</Stack>
 			</Stack>
