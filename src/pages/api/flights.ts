@@ -30,13 +30,23 @@ export default async function handler(
 	res: NextApiResponse
 ) {
 	const {
-		attendees,
+		attendees: uncheckedAttendees,
 		departingAirport,
 		returnAirport: destinationAirport,
 		departingDate,
 		returnDate,
 		limit,
 	} = req.body as FlightRequestBody;
+	let attendees;
+
+	// quick flight fix for api call
+	if (uncheckedAttendees > 9) {
+		attendees = 9;
+	} else if (uncheckedAttendees < 1) {
+		attendees = 1;
+	} else {
+		attendees = uncheckedAttendees;
+	}
 
 	try {
 		var amadeus = new Amadeus({
