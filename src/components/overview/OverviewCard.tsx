@@ -1,4 +1,3 @@
-import React from "react";
 import {
 	Box,
 	Image,
@@ -7,9 +6,11 @@ import {
 	IconButton,
 	AspectRatio,
 	Card,
+	Text,
 } from "@chakra-ui/react";
 import { Heart } from "lucide-react";
 import { formatPrice } from "@/utils/util";
+import { useState } from "react";
 
 type OverviewCardProps = {
 	isActivity: boolean; // otherwise, is hotel
@@ -26,6 +27,8 @@ const OverviewCard = ({
 	image,
 	subheadingAmount,
 }: OverviewCardProps) => {
+	const [isLiked, setIsLiked] = useState(false);
+
 	return (
 		<Card
 			borderRadius="lg"
@@ -42,12 +45,12 @@ const OverviewCard = ({
 				/>
 			</AspectRatio>
 
-			<Box p="6">
+			<Box p="3">
 				<HStack justifyContent="space-between" spacing="5">
 					<VStack align="start" spacing="0">
-						<Box mt="1" fontWeight="bold" as="h4" isTruncated fontSize="xs">
+						<Text mt="1" fontWeight="bold" as="h4" fontSize="xs">
 							{name}
-						</Box>
+						</Text>
 						<Box dir="flex" alignItems="baseline">
 							<Box
 								mt="1"
@@ -80,7 +83,7 @@ const OverviewCard = ({
 			<IconButton
 				aria-label="Add to favorites"
 				variant="solid"
-				icon={<Heart fill="red" stroke="red" size="18px" />}
+				icon={<Heart fill={isLiked ? "red" : "white"} stroke="red" size="18px" />}
 				position="absolute"
 				top={2}
 				right={2}
@@ -90,6 +93,7 @@ const OverviewCard = ({
 				_hover={{
 					background: "gray.300",
 				}}
+				onClick={() => setIsLiked(!isLiked)}
 			/>
 		</Card>
 	);

@@ -10,20 +10,37 @@ import {
 } from "@chakra-ui/react";
 
 type ActivityCardProps = {
+	id: string;
 	name: string;
 	numberOfGuests: number;
 	pricePerNight: number;
 	image: string;
+	isSelected: boolean;
+	setSelected: any;
 };
 
 function ActivityCard({
+	id,
 	name,
 	numberOfGuests,
 	pricePerNight,
 	image,
+	isSelected,
+	setSelected,
 }: ActivityCardProps) {
 	return (
-		<Card cursor="pointer">
+		<Card
+			cursor="pointer"
+			bgColor={isSelected ? "gray.200" : "white"}
+			onClick={() => {
+				setSelected({
+					id: id,
+					name: name,
+					price_per_participant: pricePerNight / numberOfGuests,
+					image_url: image,
+				});
+			}}
+		>
 			<AspectRatio width="100%" height="105px" ratio={4 / 3}>
 				<Image
 					src={image}
@@ -33,7 +50,7 @@ function ActivityCard({
 				/>
 			</AspectRatio>
 			<Stack px="5" pt="2" spacing="1" pb="2">
-				<Text fontWeight="medium" fontSize="sm">
+				<Text fontWeight="medium" fontSize="sm" isTruncated>
 					{name}
 				</Text>
 				<HStack>

@@ -23,14 +23,14 @@ type EditAttendeesModalProps = {
 	initialAttendees: number;
 	onClose: () => void;
 	isOpen: boolean;
-	onSubmit: (data: { numAttendees: number }) => void;
+    onSubmit: (data: { numAttendees: number }) => void;
 };
 
 function EditAttendeesModal({
 	initialAttendees,
 	onClose,
 	isOpen,
-	onSubmit,
+    onSubmit,
 }: EditAttendeesModalProps) {
 	const {
 		handleSubmit,
@@ -47,7 +47,6 @@ function EditAttendeesModal({
 		<Modal
 			isOpen={isOpen}
 			onClose={() => {
-				reset();
 				onClose();
 			}}
 			isCentered
@@ -55,10 +54,10 @@ function EditAttendeesModal({
 		>
 			<ModalOverlay />
 			<ModalContent>
-				<ModalHeader>Change Number of Attendees</ModalHeader>
-				<ModalCloseButton />
-				<ModalBody bgColor="fg">
-					<form onSubmit={handleSubmit(onSubmit)}>
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<ModalHeader>Change Number of Attendees</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody bgColor="fg">
 						<Center>
 							<Controller
 								name={"numAttendees"}
@@ -106,13 +105,13 @@ function EditAttendeesModal({
 								)}
 							/>
 						</Center>
-					</form>
-				</ModalBody>
-				<ModalFooter>
-					<Button colorScheme="blue" type="submit">
-						Submit Changes
-					</Button>
-				</ModalFooter>
+					</ModalBody>
+					<ModalFooter>
+						<Button colorScheme="blue" type="submit">
+							Submit Changes
+						</Button>
+					</ModalFooter>
+				</form>
 			</ModalContent>
 		</Modal>
 	);

@@ -10,12 +10,16 @@ import {
 	IconButton,
 } from "@chakra-ui/react";
 import { Heart } from "lucide-react";
+import { useState } from "react";
 
 type HotelCardProps = {
 	name: string;
 	image: string;
 	pricePerNight: number;
 	numberOfGuests: number;
+	isSelected: boolean;
+	setSelected: any;
+	index: number;
 };
 
 function HotelCard({
@@ -23,9 +27,25 @@ function HotelCard({
 	image,
 	pricePerNight,
 	numberOfGuests,
+	isSelected,
+	setSelected,
+	index,
 }: HotelCardProps) {
+	const [isLiked, setIsLiked] = useState(false);
+
 	return (
-		<Card cursor="pointer">
+		<Card
+			cursor="pointer"
+			bgColor={isSelected ? "gray.200" : "white"}
+			onClick={() => {
+				setSelected({
+					hotelName: name,
+					totalPrice: pricePerNight,
+					imageUrl: image,
+					index: index,
+				});
+			}}
+		>
 			<AspectRatio width="100%" ratio={4 / 3}>
 				<Image
 					src={image}
@@ -35,7 +55,9 @@ function HotelCard({
 				/>
 			</AspectRatio>
 			<Stack px="5" pt="4" spacing="1" pb="0">
-				<Text fontWeight="medium">{name}</Text>
+				<Text fontWeight="medium" isTruncated>
+					{name}
+				</Text>
 				<Text fontWeight="regular" fontSize="sm" color={"fg-subtle"}>
 					{numberOfGuests} Guests
 				</Text>
@@ -49,9 +71,7 @@ function HotelCard({
 			<IconButton
 				aria-label="Add to favorites"
 				variant="solid"
-				icon={
-					<Heart fill={Math.random() > 0.5 ? "red" : "white"} stroke="red" />
-				}
+				icon={<Heart fill={isLiked ? "red" : "white"} stroke="red" />}
 				position="absolute"
 				top={2}
 				right={2}
@@ -60,6 +80,10 @@ function HotelCard({
 				backgroundColor="white"
 				_hover={{
 					background: "gray.300",
+				}}
+				onClick={(e) => {
+					e.stopPropagation()
+					setIsLiked(!isLiked);
 				}}
 			/>
 		</Card>

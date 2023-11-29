@@ -8,17 +8,18 @@ import {
 	Divider,
 } from "@chakra-ui/react";
 import BookingCardSection from "./BookingCardSection";
-import BookingCardSectionItem from "./BookingCardSectionItem";
 import { formatPrice } from "@/utils/util";
+import { isBookingFinishedAtom } from "@/pages/event/[id]/overview";
 
 type BookingCardProps = {
 	spentBudget: number;
 	totalBudget: number;
+	hotelCards: React.ReactNode;
+	flightCards: React.ReactNode;
+	activityCards: React.ReactNode;
 };
 
-function BookingCard({ spentBudget, totalBudget }: BookingCardProps) {
-	const totalPrice = 15320;
-
+function BookingCard({ spentBudget, totalBudget, hotelCards, flightCards, activityCards }: BookingCardProps) {
 	return (
 		<VStack spacing="5">
 			<Heading size="lg" fontWeight="semibold">
@@ -29,7 +30,7 @@ function BookingCard({ spentBudget, totalBudget }: BookingCardProps) {
 					Budget
 				</Text>
 				<Progress
-					value={(spentBudget / totalBudget) * 100}
+					value={spentBudget / totalBudget * 100}
 					width="175px"
 					height="12px"
 					style={{ background: "#E6E6E3" }}
@@ -40,47 +41,38 @@ function BookingCard({ spentBudget, totalBudget }: BookingCardProps) {
 				</Text>
 			</HStack>
 			<BookingCardSection heading="Stay">
-				<BookingCardSectionItem
-					heading="Large Cabin"
-					subheading="20 Guests, 2 Nights"
-					price={7600}
-				/>
+				{hotelCards}
 			</BookingCardSection>
 			<BookingCardSection heading="Travel">
-				<BookingCardSectionItem
-					heading="American Airlines Flight"
-					subheading="(10)"
-					price={1760}
-				/>
-				<BookingCardSectionItem
-					heading="Spirit Airlines Flight"
-					subheading="(10)"
-					price={1760}
-				/>
+				{flightCards}
 			</BookingCardSection>
-			<BookingCardSection heading="Activites">
-				<BookingCardSectionItem
-					heading="Relaxing Hike"
-					subheading="($ 10, 20) "
-					price={200}
-				/>
-				<BookingCardSectionItem
-					heading="Intro to Tufting"
-					subheading="($ 200, 20) "
-					price={4000}
-				/>
+			<BookingCardSection heading="Activities">
+				{activityCards}
 			</BookingCardSection>
 			<Divider borderColor="gray.300" pt="2" />
 			<VStack spacing="5">
 				<VStack spacing="0">
 					<Heading fontWeight="semibold" fontSize="xl" color="#0FBC00">
-						Total: {formatPrice(totalPrice)}
+						Total: {formatPrice(spentBudget)}
 					</Heading>
 					<Text color="fg-subtle" fontWeight="light" fontSize="sm">
-						{formatPrice(totalBudget - totalPrice)} under budget
+						{totalBudget - spentBudget > 0 ? (
+							`${formatPrice(totalBudget - spentBudget)} under budget`
+						) : totalBudget - spentBudget < 0 ? (
+							`${formatPrice(spentBudget - totalBudget)} over budget`
+						) : (
+							"On budget"
+						)}
 					</Text>
 				</VStack>
-				<Button size="lg">Book Now</Button>
+				<Button
+					size="lg"
+					onClick={() => {
+						isBookingFinishedAtom.set(true);
+					}}
+				>
+					Book Now
+				</Button>
 			</VStack>
 		</VStack>
 	);

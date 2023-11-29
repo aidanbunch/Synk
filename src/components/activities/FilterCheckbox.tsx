@@ -3,12 +3,16 @@ import { Box, Center } from "@chakra-ui/react";
 type FilterCheckboxProps = {
 	text: string;
 	checked: boolean;
+	onClick: () => void;
 };
 
-function FilterCheckbox({ text, checked }: FilterCheckboxProps) {
+function FilterCheckbox({ text, checked, onClick }: FilterCheckboxProps) {
 	return (
 		<Box
 			aria-checked={checked}
+			onClick={() => {
+				onClick();
+			}}
 			cursor="pointer"
 			borderWidth="1px"
 			bgColor="white"

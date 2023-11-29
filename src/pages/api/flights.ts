@@ -10,7 +10,7 @@ type FlightRequestBody = {
 	returnDate: string;
 	limit: number;
 };
-interface FlightOffers {
+export interface FlightOffers {
 	startingTime: string;
 	endingTime: string;
 	duration: string;
@@ -40,8 +40,8 @@ export default async function handler(
 
 	try {
 		var amadeus = new Amadeus({
-			clientId: process.env.AMADEUS_API_KEY,
-			clientSecret: process.env.AMADEUS_API_SECRET,
+			clientId: process.env.AMADEUS_API_KEY2,
+			clientSecret: process.env.AMADEUS_API_SECRET2,
 		});
 
 		try {
@@ -105,6 +105,40 @@ function transformAmadeusData(data: any): {
 			let airlineName = "";
 			let airlineImage = "";
 
+			// flightOffer.itineraries.forEach((flightResponseBody: any) => {
+			// 	flightResponseBody.segments.forEach((segment: any, index: number) => {
+			// 		if (index === 0) {
+			// 			startingTime = new Date(segment.departure.at).toLocaleTimeString(
+			// 				"en-US",
+			// 				{ hour: "numeric", minute: "numeric", hour12: true }
+			// 			);
+			// 			airlineCode = segment.carrierCode;
+			// 			let airlineData = airlinesMap.get(airlineCode);
+			// 			airlineName = airlineData ? airlineData.name : "";
+			// 			airlineImage = airlineData ? airlineData.logo : "";
+			// 		}
+			// 		if (index === flightResponseBody.segments.length - 1) {
+			// 			endingTime = new Date(segment.arrival.at).toLocaleTimeString(
+			// 				"en-US",
+			// 				{ hour: "numeric", minute: "numeric", hour12: true }
+			// 			);
+			// 		}
+
+			// 		let durationParts = segment.duration
+			// 			.substring(2)
+			// 			.toLowerCase()
+			// 			.split("h");
+			// 		let hours = parseInt(durationParts[0]);
+			// 		let minutes = parseInt(durationParts[1].slice(0, -1));
+			// 		totalDurationMinutes += hours * 60 + minutes;
+			// 	});
+
+			// 	let hours = Math.floor(totalDurationMinutes / 60);
+			// 	let minutes = totalDurationMinutes % 60;
+			// 	let duration = minutes === 0
+			// 		? `${hours} hr`
+			// 		: `${hours} hr, ${minutes} min`;
+
 			flightOffer.itineraries.forEach((flightResponseBody: any) => {
 				flightResponseBody.segments.forEach((segment: any, index: number) => {
 					if (index === 0) {
@@ -124,18 +158,24 @@ function transformAmadeusData(data: any): {
 						);
 					}
 
-					let durationParts = segment.duration
-						.substring(2)
-						.toLowerCase()
-						.split("h");
-					let hours = parseInt(durationParts[0]);
-					let minutes = parseInt(durationParts[1].slice(0, -1));
-					totalDurationMinutes += hours * 60 + minutes;
+					// Calculate the duration based on departure and arrival times
+					let departureTime = new Date(segment.departure.at);
+					let arrivalTime = new Date(segment.arrival.at);
+					// Check if the flight spans over midnight and adjust the arrival time
+					if (arrivalTime < departureTime) {
+						// Add one day to the arrival time
+						arrivalTime.setDate(arrivalTime.getDate() + 1);
+					}
+					// Calculate the difference in minutes
+					let durationMinutes =
+						(arrivalTime.getTime() - departureTime.getTime()) / (1000 * 60);
+					totalDurationMinutes += durationMinutes;
 				});
 
-				let duration = `${Math.floor(totalDurationMinutes / 60)} hr, ${
-					totalDurationMinutes % 60
-				} min`;
+				// Calculate the total duration in hours and minutes
+				let hours = Math.floor(totalDurationMinutes / 60);
+				let minutes = totalDurationMinutes % 60;
+				let duration = `${hours} hr${minutes > 0 ? `, ${minutes} min` : ""}`;
 
 				if (key === "departing") {
 					departing.push({

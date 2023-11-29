@@ -67,25 +67,24 @@ create policy "Can insert their event flows" on public.event_flows for insert wi
 create policy "Can update their event flows" on public.event_flows for update using ( auth.uid() = "owner" );
 create policy "Can delete their event flows" on public.event_flows for delete using ( auth.uid() = "owner" );
 
-/*** HOTELS ***/
-
 create table public.hotels (
   "id" uuid primary key default uuid_generate_v4(),
-  "hotel_info" jsonb
+  "hotel_name" text,
+  "total_price" numeric,
+  "image_url" text
 );
 
 /*** FLIGHTS ***/
 
 create table public.flights (
   "id" uuid primary key default uuid_generate_v4(),
-  "flight_info" jsonb
-);
-
-/*** ACTIVITIES ***/
-
-create table public.activities (
-  "id" uuid primary key default uuid_generate_v4(),
-  "activity_info" jsonb
+  "starting_time" text,
+  "ending_time" text,
+  "duration" text,
+  "price" numeric,
+  "airline_code" text,
+  "airline_name" text,
+  "airline_image" text
 );
 
 /*** EVENT_FLOW_HOTELS ***/
@@ -118,7 +117,7 @@ create policy "Can delete their event_flow_flights" on public.event_flow_flights
 
 create table public.event_flow_activities (
   "event_flow" uuid references public.event_flows not null,
-  "activity" uuid references public.activities not null,
+  "activity" uuid references public.spaciously_activities not null,
   primary key ("event_flow", "activity")
 );
 

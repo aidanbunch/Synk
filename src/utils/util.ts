@@ -49,7 +49,7 @@ export async function apiRequestInternal(
 }
 
 // Make an API request to any external URL
-export function apiRequestExternal(url: string, method = "GET", data: any) {
+export function apiRequest(url: string, method = "GET", data: any) {
 	return fetch(url, {
 		method: method,
 		headers: {
@@ -102,4 +102,27 @@ fx.rates = {
 // Function to convert EUR to USD
 export function convertEURToUSD(amount: number): number {
 	return fx.convert(amount, { from: "EUR", to: "USD" });
+}
+
+// function to convert normal Date to "2023-12-01" in the string format
+export function convertDateToString(date: Date): string {
+	return date.toISOString().split("T")[0];
+}
+
+// convert string "2023-12-01" to Date
+export function convertStringToDate(dateString: string): Date {
+	return new Date(dateString);
+}
+
+// find range of days between two days, for example between 11-06 and 11-8 is 2 days so the function returns 2
+// params are startDate and endDate
+export function findRangeOfDays(startDate: Date, endDate: Date): number {
+	const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+	const diffDays = Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / oneDay));
+	return diffDays;
+}
+
+export function isDateInPast(date: Date): boolean {
+	const today = new Date();
+	return date < today;
 }

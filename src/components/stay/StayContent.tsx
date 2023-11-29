@@ -9,29 +9,77 @@ import {
 	SimpleGrid,
 	ButtonGroup,
 	Icon,
+	Spinner,
+	Center,
 } from "@chakra-ui/react";
 import HotelCard from "./HotelCard";
 import { Edit } from "lucide-react";
-import { EventCityTypes } from "@/utils/filterTypes";
-import { tabIndexAtom } from "@/pages/event/[id]/flow";
+import { EventCityTypes, eventCityToAirportCode } from "@/utils/filterTypes";
+import {
+	attendeesAtom,
+	destinationAirportAtom,
+	destinationCityAtom,
+	editAttendeesModalOpenAtom,
+	tabIndexAtom,
+} from "@/pages/event/[id]/flow";
+import { useStore } from "@nanostores/react";
+import { useEffect, useState } from "react";
+import { apiRequest } from "@/utils/util";
+import { HotelOffers } from "@/pages/api/hotels";
 
 type StayContentProps = {
-	initialAttendees: number;
-	initialCity: EventCityTypes;
+	selectedHotelObject: HotelOffers | {};
+	setSelectedHotelObject: any;
+	planSelections: any;
+	onOverviewClick: any;
 };
 
-function StayContent({ initialAttendees, initialCity }: StayContentProps) {
+function StayContent({
+	selectedHotelObject,
+	setSelectedHotelObject,
+	onOverviewClick,
+	planSelections,
+}: StayContentProps) {
+	const attendees = useStore(attendeesAtom);
+	const destinationCity = useStore(destinationCityAtom);
+
+	const [isLoading, setIsLoading] = useState(false);
+	const [hotelData, setHotelData] = useState<Array<any>>([]);
+
+	useEffect(() => {
+		setIsLoading(true);
+		apiRequest("/api/hotels", "POST", {
+			attendees: `${attendeesAtom.get()}`,
+			cityCode: destinationAirportAtom.get(),
+			limit: 8,
+		})
+			.then((data) => {
+				console.log(data);
+				setHotelData(data.hotels);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
+	}, [attendees, destinationCity]);
+
+	const totalSelectedTabs =
+		Object.values(planSelections).filter(Boolean).length;
+	const currentTabIndex = useStore(tabIndexAtom);
+	const isLastTab = currentTabIndex === totalSelectedTabs - 1;
+
 	return (
 		<Stack p="5">
 			<HStack>
-				<ButtonGroup size="md" isAttached variant="outline">
-					<Button
-						bgColor="white"
-						fontWeight="medium"
-						colorScheme="gray"
-						_hover={{}}
-					>
-						{initialAttendees} Attendees
+				<ButtonGroup
+					size="md"
+					isAttached
+					variant="outline"
+					onClick={() => {
+						editAttendeesModalOpenAtom.set(true);
+					}}
+				>
+					<Button bgColor="white" fontWeight="medium" colorScheme="gray">
+						{attendees} Attendees
 					</Button>
 					<IconButton
 						bgColor="white"
@@ -43,7 +91,13 @@ function StayContent({ initialAttendees, initialCity }: StayContentProps) {
 				</ButtonGroup>
 				<Select
 					placeholder="City Code"
-					defaultValue={initialCity}
+					value={destinationCity}
+					onChange={(event) => {
+						destinationCityAtom.set(event.target.value);
+						destinationAirportAtom.set(
+							eventCityToAirportCode[event.target.value as EventCityTypes]
+						);
+					}}
 					id="location"
 					bgColor="white"
 				>
@@ -53,26 +107,46 @@ function StayContent({ initialAttendees, initialCity }: StayContentProps) {
 				<Spacer />
 				<Box width="300%" />
 			</HStack>
-			<SimpleGrid columns={4} spacing="10" py="5">
-				{Array(8).fill(
-					<HotelCard
-						name="Cozy Dome"
-						image=""
-						pricePerNight={3300}
-						numberOfGuests={25}
-					/>
-				)}
-			</SimpleGrid>
+			{isLoading ? (
+				<Center h="665px">
+					<Spinner size="xl" color="blue.500" />
+				</Center>
+			) : (
+				<SimpleGrid columns={4} spacing="10" py="5">
+					{hotelData &&
+						hotelData.map((hotel, index) => (
+							<HotelCard
+								key={index}
+								index={index}
+								name={hotel.hotelName}
+								image={hotel.imageUrl}
+								pricePerNight={hotel.totalPrice}
+								numberOfGuests={attendees}
+								isSelected={
+									selectedHotelObject
+										? // @ts-ignore
+										  selectedHotelObject.index === index
+										: false
+								}
+								setSelected={setSelectedHotelObject}
+							/>
+						))}
+				</SimpleGrid>
+			)}
 			<HStack>
 				<Spacer />
 				<Button
 					minW="15%"
 					onClick={() => {
-						const newTabIndex = tabIndexAtom.get() + 1;
-						tabIndexAtom.set(newTabIndex);
+						if (isLastTab) {
+							onOverviewClick(); // Navigate to the overview
+						} else {
+							const newTabIndex = currentTabIndex + 1;
+							tabIndexAtom.set(newTabIndex); // Go to the next tab
+						}
 					}}
 				>
-					Next
+					{isLastTab ? "Go to Overview" : "Next"}
 				</Button>
 			</HStack>
 		</Stack>

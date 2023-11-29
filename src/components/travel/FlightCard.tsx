@@ -15,8 +15,12 @@ type FlightCardProps = {
 	duration: string; // 1 hr, 25 min format
 	price: number;
 	tickets: number;
-    airlineName: string;
-    airlineLogo: string;
+	airlineName: string;
+	airlineLogo: string;
+	airlineCode: string;
+	isSelected: boolean;
+	setSelected: any;
+    index: number;
 };
 
 function FlightCard({
@@ -25,17 +29,37 @@ function FlightCard({
 	duration,
 	price,
 	tickets,
-    airlineName,
-    airlineLogo,
+	airlineName,
+	airlineLogo,
+	airlineCode,
+	isSelected,
+	setSelected,
+    index
 }: FlightCardProps) {
 	return (
-		<Card borderRadius="lg" cursor="pointer">
+		<Card
+			borderRadius="lg"
+			cursor="pointer"
+			bgColor={isSelected ? "gray.200" : "white"}
+			onClick={() => {
+				setSelected({
+					startingTime: startingTime,
+					endingTime: endingTime,
+					duration: duration,
+					price: price,
+					airlineCode: airlineCode,
+					airlineName: airlineName,
+					airlineImage: airlineLogo,
+                    index: index
+				});
+			}}
+		>
 			<CardBody py="4" px="3">
 				<Stack>
 					<HStack spacing="4">
 						<AspectRatio height="55px" width="55px" ratio={16 / 9}>
 							<Image
-                                src={airlineLogo}
+								src={airlineLogo}
 								fallbackSrc="https://companyurlfinder.com/marketing/assets/img/logos/united.com.png"
 								alt="naruto"
 								objectFit="cover"
