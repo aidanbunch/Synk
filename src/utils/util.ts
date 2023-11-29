@@ -77,6 +77,12 @@ export function isDateBefore(inputDate: Date, compareDate: Date) {
 	return inputTime < compareTime;
 }
 
+export function isDateAfter(inputDate: Date, compareDate: Date) {
+	const inputTime = inputDate.getTime();
+	const compareTime = compareDate.getTime();
+	return inputTime > compareTime;
+}
+
 // function to check if input date and compare date are the same day
 export function isSameDay(inputDate: Date, compareDate: Date) {
 	const inputTime = inputDate.getTime();

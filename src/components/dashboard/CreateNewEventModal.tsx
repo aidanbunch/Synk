@@ -30,7 +30,7 @@ import { useForm, Controller } from "react-hook-form";
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { isDateBefore, isDateInPast, isSameDay } from "@/utils/util";
+import { isDateAfter, isDateBefore, isDateInPast, isSameDay } from "@/utils/util";
 import { AirportCodeTypes } from "@/utils/filterTypes";
 
 const selectablePlans = ["stay", "travel", "activities"] as const;
@@ -285,18 +285,14 @@ export const CreateNewEventModal = ({
 												message: "A start date is required",
 											},
 											validate: (value) => {
-												// checking if start date is before end date or if they are the same day
-												// also check if any of the dates are in the past
-												if (
-													isDateBefore(value, getValues().endDate) ||
-													isSameDay(value, getValues().startDate) ||
-													!isDateInPast(value) ||
-													!isDateInPast(getValues().endDate)
-												) {
-													return true;
-												} else {
-													return "Start date must be before end date and cannot be in the past";
+												const endDate = getValues().endDate;
+												if (!isDateBefore(value, endDate) && !isSameDay(value, endDate)) {
+													return "Start date must be before end date";
 												}
+												if (isDateInPast(value)) {
+													return "Start date cannot be in the past";
+												}
+												return true;
 											},
 										}}
 										render={({ field }) => (
@@ -328,17 +324,14 @@ export const CreateNewEventModal = ({
 												message: "An end date is required",
 											},
 											validate: (value) => {
-												// checking if end date is after start date or if they are the same day
-												if (
-													!isDateBefore(value, getValues().startDate) ||
-													isSameDay(value, getValues().startDate) ||
-													!isDateInPast(value) ||
-													!isDateInPast(getValues().startDate)
-												) {
-													return true;
-												} else {
-													return "End date must be after start date and cannot be in the past";
+												const startDate = getValues().startDate;
+												if (!isDateAfter(value, startDate) && !isSameDay(value, startDate)) {
+													return "End date must be after start date";
 												}
+												if (isDateInPast(value)) {
+													return "End date cannot be in the past";
+												}
+												return true;
 											},
 										}}
 										render={({ field }) => (
