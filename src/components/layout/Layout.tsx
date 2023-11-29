@@ -6,11 +6,16 @@ import {
 } from "../dashboard/CreateNewEventModal";
 import { atom } from "nanostores";
 import { useStore } from "@nanostores/react";
+import { createEventFlow } from "@/utils/db";
+import { useAuth } from "@/utils/auth";
+import { useRouter } from "next/router";
 
 export const showCreateNewEventModalAtom = atom(false);
 
 function Layout({ children }: { children: React.ReactNode }) {
 	const showCreateNewEventModal = useStore(showCreateNewEventModalAtom);
+	const auth = useAuth();
+	const router = useRouter();
 
 	return (
 		<Flex
@@ -40,15 +45,26 @@ function Layout({ children }: { children: React.ReactNode }) {
 					departingLocation,
 					idealEvent,
 				}: NewEventFormInputs) => {
-					console.log(planSelections);
-					console.log(startDate);
-					console.log(endDate);
-					console.log(eventName);
-					console.log(numAttendees);
-					console.log(budget);
-					console.log(eventLocation);
-					console.log(departingLocation);
-					console.log(idealEvent);
+					createEventFlow(
+						auth.user.uid!,
+						JSON.stringify(planSelections),
+						eventName,
+						numAttendees,
+						budget,
+						idealEvent,
+						eventLocation,
+						departingLocation,
+						startDate,
+						endDate,
+						false
+					).then((id) => {
+						if (id === "") {
+							console.error("error creating event");
+						} else {
+							router.push(`/event/${id}`);
+						}
+						showCreateNewEventModalAtom.set(false)
+					})
 				}}
 			/>
 		</Flex>

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import supabase from "./_supabase"
+import supabase from "../../utils/server/_supabase"
 import { User } from "@supabase/supabase-js";
 
 type ErrorResponse = {

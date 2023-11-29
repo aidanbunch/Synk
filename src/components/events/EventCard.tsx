@@ -17,6 +17,7 @@ type EventCardProps = {
 	activityName: string;
 	eventName: string;
 	totalPrice: number;
+	image: string;
 };
 
 type EventCardSize = "md" | "lg";
@@ -27,6 +28,7 @@ function EventCard({
 	eventName,
 	totalPrice,
 	isChooseCard = false,
+	image,
 }: EventCardProps) {
 	const isMd = size === "md";
 
@@ -41,6 +43,7 @@ function EventCard({
 			<AspectRatio width={isMd ? "250px" : "400px"} ratio={4 / 3}>
 				<Image
 					objectFit="cover"
+					src={image}
 					fallbackSrc="https://www.tripsavvy.com/thmb/LvHd8jPLcmSgH3pnyf8Cy4pAw4s=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/taipei101-tower-taiwan-56ccb69b5f9b5879cc5b6f0a.jpg"
 					alt="Event Image"
 				/>
@@ -56,8 +59,8 @@ function EventCard({
 							{activityName}
 						</Text>
 					</Stack>
-					<Spacer />
-					<Icon as={Edit} boxSize={5} />
+					{/* <Spacer />
+					<Icon as={Edit} boxSize={5} /> */}
 				</HStack>
 				<Spacer />
 				<HStack>

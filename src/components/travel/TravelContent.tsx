@@ -11,34 +11,119 @@ import {
 	Center,
 	Heading,
 	Divider,
+	Spinner,
 } from "@chakra-ui/react";
 import { Edit } from "lucide-react";
 import FlightCard from "./FlightCard";
-import { AirportCodeTypes } from "@/utils/filterTypes";
-import { tabIndexAtom } from "@/pages/event/[id]/flow";
+import {
+	AirportCodeTypes,
+	airportCodeToEventCity,
+	eventCityToAirportCode,
+} from "@/utils/filterTypes";
+import {
+	attendeesAtom,
+	departureAirportAtom,
+	destinationAirportAtom,
+	destinationCityAtom,
+	editAttendeesModalOpenAtom,
+	tabIndexAtom,
+} from "@/pages/event/[id]/flow";
+import { useStore } from "@nanostores/react";
+import { useEffect, useState } from "react";
+import {
+	apiRequest,
+	convertDateToString,
+	convertStringToDate,
+} from "@/utils/util";
+// @ts-ignore
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from "next/router";
+import { FlightOffers } from "@/pages/api/flights";
 
 type TravelContentProps = {
-	initialAttendees: number;
-	initialDepartureAirport: AirportCodeTypes;
-	initialDestinationAirport: AirportCodeTypes;
+	selectedDepartureFlightObject: FlightOffers | {};
+	setSelectedDepartureFlightObject: any;
+	selectedReturnFlightObject: FlightOffers | {};
+	setSelectedReturnFlightObject: any;
+	planSelections: any;
+	onOverviewClick: any;
 };
 
 function TravelContent({
-	initialAttendees,
-	initialDepartureAirport,
-	initialDestinationAirport,
+	selectedDepartureFlightObject,
+	setSelectedDepartureFlightObject,
+	selectedReturnFlightObject,
+	setSelectedReturnFlightObject,
+	planSelections,
+	onOverviewClick,
 }: TravelContentProps) {
+	const router = useRouter();
+	const attendees = useStore(attendeesAtom);
+	const departureAirport = useStore(departureAirportAtom);
+	const destinationAirport = useStore(destinationAirportAtom);
+
+	const departureDateFromQuery: unknown = router.query.departureDate;
+	const returnDateFromQuery: unknown = router.query.returnDate;
+
+	const initialDepDate = convertStringToDate(departureDateFromQuery as string);
+	const initialRetDate = convertStringToDate(returnDateFromQuery as string);
+
+	const [departureDate, setDepartureDate] = useState(initialDepDate);
+	const [returnDate, setReturnDate] = useState(initialRetDate);
+
+	const [isLoading, setIsLoading] = useState(false);
+	const [departureData, setDepartureData] = useState<Array<any>>([]);
+	const [destinationData, setDestinationData] = useState<Array<any>>([]);
+
+	useEffect(() => {
+		setIsLoading(true);
+		apiRequest("/api/flights", "POST", {
+			attendees: `${attendeesAtom.get()}`,
+			departingAirport: departureAirportAtom.get(),
+			returnAirport: destinationAirportAtom.get(),
+			departingDate: convertDateToString(departureDate),
+			returnDate: convertDateToString(returnDate),
+			limit: 10,
+		})
+			.then((data) => {
+				setDepartureData(data.departing);
+				setDestinationData(data.returning);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
+	}, [
+		attendees,
+		departureAirport,
+		destinationAirport,
+		departureDate,
+		returnDate,
+	]);
+
+	const totalSelectedTabs =
+		Object.values(planSelections).filter(Boolean).length;
+	const currentTabIndex = useStore(tabIndexAtom);
+	const isLastTab = currentTabIndex === totalSelectedTabs - 1;
+
 	return (
 		<Stack p="5">
 			<HStack spacing="5">
-				<ButtonGroup size="md" isAttached variant="outline">
+				<ButtonGroup
+					size="md"
+					isAttached
+					variant="outline"
+					onClick={() => {
+						editAttendeesModalOpenAtom.set(true);
+					}}
+				>
 					<Button
 						bgColor="white"
 						fontWeight="medium"
 						colorScheme="gray"
 						_hover={{}}
 					>
-						{initialAttendees} Attendees
+						{attendees} Attendees
 					</Button>
 					<IconButton
 						bgColor="white"
@@ -50,7 +135,10 @@ function TravelContent({
 				</ButtonGroup>
 				<Select
 					placeholder="Departure Airport"
-					defaultValue={initialDepartureAirport}
+					value={departureAirport}
+					onChange={(event) => {
+						departureAirportAtom.set(event.target.value);
+					}}
 					id="location"
 					bgColor="white"
 				>
@@ -64,15 +152,29 @@ function TravelContent({
 				</Select>
 				<Select
 					placeholder="Destination Airport"
-					defaultValue={initialDestinationAirport}
+					value={destinationAirport}
+					onChange={(event) => {
+						destinationAirportAtom.set(event.target.value);
+						destinationCityAtom.set(
+							airportCodeToEventCity[event.target.value as AirportCodeTypes]
+						);
+					}}
 					id="location"
 					bgColor="white"
 				>
 					<option value="JFK">JFK</option>
 					<option value="SFO">SFO</option>
 				</Select>
-				<Spacer />
-				<Box width="240%" />
+				<DatePicker
+					placeholderText="Departure Date"
+					onChange={(date: Date) => setDepartureDate(date)}
+					selected={departureDate}
+				/>
+				<DatePicker
+					placeholderText="Return Date"
+					onChange={(date: Date) => setReturnDate(date)}
+					selected={returnDate}
+				/>
 			</HStack>
 			<HStack width="full" py="8" px="5">
 				<Stack spacing="6">
@@ -84,19 +186,36 @@ function TravelContent({
 					>
 						Departures
 					</Heading>
-					<Stack spacing="5">
-						{Array(5).fill(
-							<FlightCard
-								startingTime="8:05 AM"
-								endingTime="9:30 AM"
-								duration="1 hr, 25 min"
-								price={1760}
-								tickets={10}
-								airlineName="United Airlines"
-								airlineLogo=""
-							/>
-						)}
-					</Stack>
+					{isLoading ? (
+						<Center h="520px" w="400px">
+							<Spinner size="xl" color="blue.500" />
+						</Center>
+					) : (
+						<Stack spacing="5">
+							{departureData &&
+								departureData.map((flight, index) => (
+									<FlightCard
+										key={index}
+										index={index}
+										startingTime={flight.startingTime}
+										endingTime={flight.endingTime}
+										duration={flight.duration}
+										price={flight.price}
+										airlineLogo={flight.airlineImage}
+										airlineName={flight.airlineName}
+										airlineCode={flight.airlineCode}
+										tickets={attendees}
+										setSelected={setSelectedDepartureFlightObject}
+										isSelected={
+											selectedDepartureFlightObject
+												? // @ts-ignore
+												  selectedDepartureFlightObject.index === index
+												: false
+										}
+									/>
+								))}
+						</Stack>
+					)}
 				</Stack>
 				<Center height="550px" width="60px">
 					<Divider orientation="vertical" style={{ borderColor: "#CED8E2" }} />
@@ -110,19 +229,36 @@ function TravelContent({
 					>
 						Arrivals
 					</Heading>
-					<Stack spacing="5">
-						{Array(5).fill(
-							<FlightCard
-								startingTime="8:05 AM"
-								endingTime="9:30 AM"
-								duration="1 hr, 25 min"
-								price={1760}
-								tickets={10}
-								airlineName="United Airlines"
-								airlineLogo=""
-							/>
-						)}
-					</Stack>
+					{isLoading ? (
+						<Center h="520px" w="400px">
+							<Spinner size="xl" color="blue.500" />
+						</Center>
+					) : (
+						<Stack spacing="5">
+							{destinationData &&
+								destinationData.map((flight, index) => (
+									<FlightCard
+										key={index}
+										index={index}
+										startingTime={flight.startingTime}
+										endingTime={flight.endingTime}
+										duration={flight.duration}
+										price={flight.price}
+										airlineLogo={flight.airlineImage}
+										airlineName={flight.airlineName}
+										airlineCode={flight.airlineCode}
+										tickets={attendees}
+										setSelected={setSelectedReturnFlightObject}
+										isSelected={
+											selectedReturnFlightObject
+												? // @ts-ignore
+												  selectedReturnFlightObject.index === index
+												: false
+										}
+									/>
+								))}
+						</Stack>
+					)}
 				</Stack>
 			</HStack>
 			<HStack>
@@ -130,11 +266,15 @@ function TravelContent({
 				<Button
 					minW="15%"
 					onClick={() => {
-						const newTabIndex = tabIndexAtom.get() + 1;
-						tabIndexAtom.set(newTabIndex);
+						if (isLastTab) {
+							onOverviewClick(); // Navigate to the overview
+						} else {
+							const newTabIndex = currentTabIndex + 1;
+							tabIndexAtom.set(newTabIndex); // Go to the next tab
+						}
 					}}
 				>
-					Next
+					{isLastTab ? "Go to Overview" : "Next"}
 				</Button>
 			</HStack>
 		</Stack>

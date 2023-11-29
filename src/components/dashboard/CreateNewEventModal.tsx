@@ -30,7 +30,7 @@ import { useForm, Controller } from "react-hook-form";
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { isDateBefore, isSameDay } from "@/utils/util";
+import { isDateBefore, isDateInPast, isSameDay } from "@/utils/util";
 import { AirportCodeTypes } from "@/utils/filterTypes";
 
 const selectablePlans = ["stay", "travel", "activities"] as const;
@@ -286,13 +286,16 @@ export const CreateNewEventModal = ({
 											},
 											validate: (value) => {
 												// checking if start date is before end date or if they are the same day
+												// also check if any of the dates are in the past
 												if (
 													isDateBefore(value, getValues().endDate) ||
-													isSameDay(value, getValues().startDate)
+													isSameDay(value, getValues().startDate) ||
+													!isDateInPast(value) ||
+													!isDateInPast(getValues().endDate)
 												) {
 													return true;
 												} else {
-													return "Start date must be before end date";
+													return "Start date must be before end date and cannot be in the past";
 												}
 											},
 										}}
@@ -328,11 +331,13 @@ export const CreateNewEventModal = ({
 												// checking if end date is after start date or if they are the same day
 												if (
 													!isDateBefore(value, getValues().startDate) ||
-													isSameDay(value, getValues().startDate)
+													isSameDay(value, getValues().startDate) ||
+													!isDateInPast(value) ||
+													!isDateInPast(getValues().startDate)
 												) {
 													return true;
 												} else {
-													return "End date must be after start date";
+													return "End date must be after start date and cannot be in the past";
 												}
 											},
 										}}
