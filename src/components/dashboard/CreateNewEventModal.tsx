@@ -37,7 +37,7 @@ const selectablePlans = ["stay", "travel", "activities"] as const;
 type PlanTypes = (typeof selectablePlans)[number];
 type PlanSelectionStatus = { [key in PlanTypes]: boolean };
 
-interface NewEventFormInputs {
+export interface NewEventFormInputs {
 	planSelections: PlanSelectionStatus;
 	startDate: Date;
 	endDate: Date;
@@ -65,6 +65,7 @@ export const CreateNewEventModal = ({
 		register,
 		formState: { errors },
 		getValues,
+		reset,
 		control,
 	} = useForm({
 		defaultValues: {
@@ -85,30 +86,16 @@ export const CreateNewEventModal = ({
 		},
 	});
 
-	const testSubmit = ({
-		planSelections,
-		startDate,
-		endDate,
-		eventName,
-		numAttendees,
-		budget,
-		eventLocation,
-		departingLocation,
-		idealEvent,
-	}: NewEventFormInputs) => {
-		console.log("planSelections", planSelections);
-		console.log("startDate", startDate);
-		console.log("endDate", endDate);
-		console.log("eventName", eventName);
-		console.log("numAttendees", numAttendees);
-		console.log("budget", budget);
-		console.log("eventLocation", eventLocation);
-		console.log("departingLocation", departingLocation);
-		console.log("idealEvent", idealEvent);
-	};
-
 	return (
-		<Modal isOpen={isOpen} onClose={onClose} isCentered size="5xl">
+		<Modal
+			isOpen={isOpen}
+			onClose={() => {
+				reset();
+				onClose();
+			}}
+			isCentered
+			size="5xl"
+		>
 			<ModalOverlay />
 			<ModalContent>
 				<form onSubmit={handleSubmit(onSubmit)} noValidate>

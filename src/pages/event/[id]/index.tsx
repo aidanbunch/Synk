@@ -20,7 +20,7 @@ function EventPage() {
 							</Heading>
 							<Stack>
 								<EventCard
-									organizationName="LavaLab"
+									activityName="LavaLab"
 									eventName="Fall '23 Retreat"
 									totalPrice={1000}
 									size="lg"
@@ -33,8 +33,9 @@ function EventPage() {
 							</Heading>
 							<Stack>
 								<EventCard
-									organizationName="LavaLab"
-									eventName="Fall '23 Retreat"
+									isChooseCard
+									activityName="Choose your activities"
+									eventName="Choose your Plan"
 									totalPrice={1000}
 									size="lg"
 								/>

@@ -15,20 +15,20 @@ import {
 	NumberInputStepper,
 	NumberIncrementStepper,
 	NumberDecrementStepper,
-    FormLabel,
+	FormLabel,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 
 type EditAttendeesModalProps = {
 	initialAttendees: number;
-    onClose: () => void;
+	onClose: () => void;
 	isOpen: boolean;
 	onSubmit: (data: { numAttendees: number }) => void;
 };
 
 function EditAttendeesModal({
 	initialAttendees,
-    onClose,
+	onClose,
 	isOpen,
 	onSubmit,
 }: EditAttendeesModalProps) {
@@ -36,6 +36,7 @@ function EditAttendeesModal({
 		handleSubmit,
 		formState: { errors },
 		control,
+		reset,
 	} = useForm({
 		defaultValues: {
 			numAttendees: initialAttendees,
@@ -43,7 +44,15 @@ function EditAttendeesModal({
 	});
 
 	return (
-		<Modal isOpen={isOpen} onClose={onClose} isCentered size="md">
+		<Modal
+			isOpen={isOpen}
+			onClose={() => {
+				reset();
+				onClose();
+			}}
+			isCentered
+			size="md"
+		>
 			<ModalOverlay />
 			<ModalContent>
 				<ModalHeader>Change Number of Attendees</ModalHeader>

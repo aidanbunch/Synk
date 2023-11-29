@@ -7,6 +7,10 @@ import TravelContent from "@/components/travel/TravelContent";
 import ActivitiesContent from "@/components/activities/ActivitiesContent";
 import { eventCityToAirportCode } from "@/utils/filterTypes";
 import EditAttendeesModal from "@/components/layout/EditAttendeesModal";
+import { useEffect } from "react";
+import { atom } from 'nanostores'
+
+export const tabIndexAtom = atom(0)
 
 function FlowPage() {
 	return (

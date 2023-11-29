@@ -31,11 +31,11 @@ function ActivitiesContent({
 	return (
 		<Stack px="5" py="0">
 			<HStack spacing="6">
-				<FilterCheckbox text="In-Person" />
-				<FilterCheckbox text="Restaurants" />
-				<FilterCheckbox text="Bars" />
-				<FilterCheckbox text="Nature" />
-				<FilterCheckbox text="Unique" />
+				<FilterCheckbox text="Drink Crafting" checked={true} />
+				<FilterCheckbox text="Arts" checked={true} />
+				<FilterCheckbox text="Cooking" checked={false} />
+				<FilterCheckbox text="Wellness" checked={false} />
+				<FilterCheckbox text="Fun" checked={false} />
 				<Spacer />
 				<Button
 					minW="10%"
@@ -97,7 +97,11 @@ function ActivitiesContent({
 			</SimpleGrid>
 			<HStack>
 				<Spacer />
-				<Button minW="15%">Next</Button>
+				<Button minW="15%" onClick={() => {
+					// finished with flow
+				}}>
+					Go to Overview
+				</Button>
 			</HStack>
 		</Stack>
 	);

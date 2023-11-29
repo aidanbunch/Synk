@@ -49,11 +49,13 @@ create trigger on_auth_user_updated
 create table public.event_flows (
   "id" uuid primary key default uuid_generate_v4(),
   "owner" uuid references public.users not null,
+  "planSelections" jsonb,
   "event_name" text,
   "num_attendees" integer,
-  "budget" numeric,
-  "description" text,
-  "hq_location" text,
+  "budget" integer,
+  "ideal_event_description" text,
+  "event_location" text,
+  "departing_location" text,
   "start_date" date,
   "end_date" date,
   constraint "event_name" check (char_length("event_name") >= 1 OR char_length("event_name") <= 144)

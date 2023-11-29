@@ -1,4 +1,5 @@
 import { Button, Center, Heading, Stack } from "@chakra-ui/react";
+import { showCreateNewEventModalAtom } from "../layout/Layout";
 
 function EmptyState() {
 	return (
@@ -7,7 +8,13 @@ function EmptyState() {
 				<Heading size="md" color="fg-subtle">
 					You currently have no events.
 				</Heading>
-				<Button>Create Event</Button>
+				<Button
+					onClick={() => {
+						showCreateNewEventModalAtom.set(true);
+					}}
+				>
+					Create Event
+				</Button>
 			</Stack>
 		</Center>
 	);

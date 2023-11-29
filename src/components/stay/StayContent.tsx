@@ -13,6 +13,7 @@ import {
 import HotelCard from "./HotelCard";
 import { Edit } from "lucide-react";
 import { EventCityTypes } from "@/utils/filterTypes";
+import { tabIndexAtom } from "@/pages/event/[id]/flow";
 
 type StayContentProps = {
 	initialAttendees: number;
@@ -64,7 +65,15 @@ function StayContent({ initialAttendees, initialCity }: StayContentProps) {
 			</SimpleGrid>
 			<HStack>
 				<Spacer />
-				<Button minW="15%">Next</Button>
+				<Button
+					minW="15%"
+					onClick={() => {
+						const newTabIndex = tabIndexAtom.get() + 1;
+						tabIndexAtom.set(newTabIndex);
+					}}
+				>
+					Next
+				</Button>
 			</HStack>
 		</Stack>
 	);
