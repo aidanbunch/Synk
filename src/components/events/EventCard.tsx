@@ -13,7 +13,8 @@ import { Edit } from "lucide-react";
 
 type EventCardProps = {
 	size?: EventCardSize;
-	organizationName: string;
+	isChooseCard?: boolean;
+	activityName: string;
 	eventName: string;
 	totalPrice: number;
 };
@@ -22,9 +23,10 @@ type EventCardSize = "md" | "lg";
 
 function EventCard({
 	size = "md",
-	organizationName,
+	activityName,
 	eventName,
 	totalPrice,
+	isChooseCard = false,
 }: EventCardProps) {
 	const isMd = size === "md";
 
@@ -51,7 +53,7 @@ function EventCard({
 							{eventName}
 						</Text>
 						<Text py="2" color="fg-subtle" fontSize="xl">
-							{organizationName}
+							{activityName}
 						</Text>
 					</Stack>
 					<Spacer />
@@ -60,12 +62,20 @@ function EventCard({
 				<Spacer />
 				<HStack>
 					<Spacer />
-					<Text fontWeight="medium" fontSize="xl">
-						Total Price:{" "}
-					</Text>
-					<Text py="2" color="fg-muted" fontSize="xl">
-						{formatPrice(totalPrice)}
-					</Text>
+					{isChooseCard ? (
+						<Text fontWeight="medium" fontSize="xl">
+							Choose your Price
+						</Text>
+					) : (
+						<>
+							<Text fontWeight="medium" fontSize="xl">
+								Total Price:{" "}
+							</Text>
+							<Text py="2" color="fg-muted" fontSize="xl">
+								{formatPrice(totalPrice)}
+							</Text>
+						</>
+					)}
 				</HStack>
 			</Stack>
 		</Card>

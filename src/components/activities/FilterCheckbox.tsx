@@ -2,12 +2,13 @@ import { Box, Center } from "@chakra-ui/react";
 
 type FilterCheckboxProps = {
 	text: string;
+	checked: boolean;
 };
 
-function FilterCheckbox({ text }: FilterCheckboxProps) {
+function FilterCheckbox({ text, checked }: FilterCheckboxProps) {
 	return (
 		<Box
-			// aria-checked={true}
+			aria-checked={checked}
 			cursor="pointer"
 			borderWidth="1px"
 			bgColor="white"

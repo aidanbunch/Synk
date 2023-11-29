@@ -21,6 +21,7 @@ import { SidebarButton } from "./SidebarButton";
 import { useAuth } from "@/utils/auth";
 import Link from "next/link";
 import SidebarEventCard from "./SidebarEventCard";
+import { showCreateNewEventModalAtom } from "./Layout";
 
 export const Sidebar = () => {
 	const auth = useAuth();
@@ -41,7 +42,13 @@ export const Sidebar = () => {
 				</VStack>
 				<Stack spacing="1">
 					<Box />
-					<Button>Create Event</Button>
+					<Button
+						onClick={() => {
+							showCreateNewEventModalAtom.set(true);
+						}}
+					>
+						Create Event
+					</Button>
 					<Link href="/dashboard" passHref legacyBehavior>
 						<SidebarButton as="a" textColor="fg-subtle">
 							My Events
@@ -51,7 +58,7 @@ export const Sidebar = () => {
 						<Box />
 						{/* map here, inside of boxes */}
 						<SidebarEventCard
-							organizationName="LavaLab"
+							activityName="LavaLab"
 							eventName="Fall '23 Retreat"
 							image=""
 						/>

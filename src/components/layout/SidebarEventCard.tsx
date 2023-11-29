@@ -1,13 +1,13 @@
 import { HStack, AspectRatio, Image, VStack, Text } from "@chakra-ui/react";
 
 type SidebarEventCardProps = {
-	organizationName: string;
+	activityName: string;
 	eventName: string;
     image: string
 };
 
 function SidebarEventCard({
-	organizationName,
+	activityName,
 	eventName,
     image,
 }: SidebarEventCardProps) {
@@ -23,7 +23,7 @@ function SidebarEventCard({
 			</AspectRatio>
 			<VStack alignItems={"start"} spacing="0">
 				<Text color="fg-subtle" fontSize="sm">
-					{organizationName}
+					{activityName}
 				</Text>
 				<Text fontSize="md">{eventName}</Text>
 			</VStack>

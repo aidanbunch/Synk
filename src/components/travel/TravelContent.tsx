@@ -15,6 +15,7 @@ import {
 import { Edit } from "lucide-react";
 import FlightCard from "./FlightCard";
 import { AirportCodeTypes } from "@/utils/filterTypes";
+import { tabIndexAtom } from "@/pages/event/[id]/flow";
 
 type TravelContentProps = {
 	initialAttendees: number;
@@ -92,7 +93,7 @@ function TravelContent({
 								price={1760}
 								tickets={10}
 								airlineName="United Airlines"
-                                airlineLogo=""
+								airlineLogo=""
 							/>
 						)}
 					</Stack>
@@ -118,7 +119,7 @@ function TravelContent({
 								price={1760}
 								tickets={10}
 								airlineName="United Airlines"
-                                airlineLogo=""
+								airlineLogo=""
 							/>
 						)}
 					</Stack>
@@ -126,7 +127,15 @@ function TravelContent({
 			</HStack>
 			<HStack>
 				<Spacer />
-				<Button minW="15%">Next</Button>
+				<Button
+					minW="15%"
+					onClick={() => {
+						const newTabIndex = tabIndexAtom.get() + 1;
+						tabIndexAtom.set(newTabIndex);
+					}}
+				>
+					Next
+				</Button>
 			</HStack>
 		</Stack>
 	);
