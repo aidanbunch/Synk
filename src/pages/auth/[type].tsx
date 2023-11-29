@@ -21,7 +21,7 @@ const providers: ProviderItem[] = [
 function AuthPage() {
 	const router: any = useRouter();
 	const handleAuth = (user: any) => {
-		router.push(router.query.next || "/dashboard");
+		router.push("/dashboard");
 	};
 
 	return (
