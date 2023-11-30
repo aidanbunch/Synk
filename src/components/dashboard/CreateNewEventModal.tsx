@@ -30,7 +30,12 @@ import { useForm, Controller } from "react-hook-form";
 // @ts-ignore
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { isDateAfter, isDateBefore, isDateInPast, isSameDay } from "@/utils/util";
+import {
+	isDateAfter,
+	isDateBefore,
+	isDateInPast,
+	isSameDay,
+} from "@/utils/util";
 import { AirportCodeTypes } from "@/utils/filterTypes";
 
 const selectablePlans = ["stay", "travel", "activities"] as const;
@@ -70,19 +75,23 @@ export const CreateNewEventModal = ({
 	} = useForm({
 		defaultValues: {
 			planSelections: {
-				stay: false,
-				travel: false,
-				activities: false,
+				stay: true,
+				travel: true,
+				activities: true,
 			},
 			startDate: new Date(),
-			// default end date is 1 day after start date
-			endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-			eventName: "",
-			numAttendees: 1,
-			budget: 5000,
-			eventLocation: "",
-			departingLocation: "",
-			idealEvent: "",
+			// default end date is 4 days after start date
+			endDate: (() => {
+				const startDate = new Date();
+				startDate.setDate(startDate.getDate() + 4);
+				return startDate;
+			})(),
+			eventName: "Summer Retreat",
+			numAttendees: 9,
+			budget: 10000,
+			eventLocation: "nyc",
+			departingLocation: "LAX",
+			idealEvent: "A casual event with a lot of team-building activities",
 		},
 	});
 
@@ -286,7 +295,10 @@ export const CreateNewEventModal = ({
 											},
 											validate: (value) => {
 												const endDate = getValues().endDate;
-												if (!isDateBefore(value, endDate) && !isSameDay(value, endDate)) {
+												if (
+													!isDateBefore(value, endDate) &&
+													!isSameDay(value, endDate)
+												) {
 													return "Start date must be before end date";
 												}
 												if (isDateInPast(value)) {
@@ -325,7 +337,10 @@ export const CreateNewEventModal = ({
 											},
 											validate: (value) => {
 												const startDate = getValues().startDate;
-												if (!isDateAfter(value, startDate) && !isSameDay(value, startDate)) {
+												if (
+													!isDateAfter(value, startDate) &&
+													!isSameDay(value, startDate)
+												) {
 													return "End date must be after start date";
 												}
 												if (isDateInPast(value)) {
