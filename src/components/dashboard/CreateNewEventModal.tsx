@@ -79,7 +79,11 @@ export const CreateNewEventModal = ({
 				travel: true,
 				activities: true,
 			},
-			startDate: new Date(),
+			startDate: (() => {
+				const today = new Date();
+				today.setDate(today.getDate() + 1);
+				return today;
+			})(),
 			// default end date is 4 days after start date
 			endDate: (() => {
 				const startDate = new Date();
