@@ -30,8 +30,6 @@ const requireAuth = (fn: Function) => async (req: ExtendedNextApiRequest, res: N
 
         return fn(req, res)
     } catch(error) {
-        console.log("_require-auth error", error);
-
         res.status(401).send({
             status: "error",
             code: "auth/invalid-user-token",

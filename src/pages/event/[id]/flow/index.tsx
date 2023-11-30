@@ -109,7 +109,6 @@ function FlowPage() {
 			}
 
 			let hotelUUID = "";
-			console.log("hotelName:", hotelName);
 
 			if (hotelName) {
 				hotelUUID = await uploadEventFlowHotels(
@@ -120,7 +119,6 @@ function FlowPage() {
 					// @ts-ignore
 					selectedHotelObject.imageUrl
 				);
-				console.log("hotelUUID:", hotelUUID);
 			}
 
 			let departureFlightUUID = "";
@@ -147,7 +145,6 @@ function FlowPage() {
 			}
 
 			let returnFlightUUID = "";
-			console.log("returnFlightDuration:", returnFlightDuration);
 
 			if (returnFlightDuration) {
 				// @ts-ignore
@@ -170,7 +167,6 @@ function FlowPage() {
 				);
 			}
 
-			console.log("activityName:", activityName);
 			if (activityName) {
 				await uploadEventFlowActivities(
 					// @ts-ignore
