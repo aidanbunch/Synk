@@ -1,40 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Synk: E2E Corporate Event Planning
+Synk is a comprehensive end-to-end corporate event planning platform designed to streamline the event planning process for HR representatives and corporate event planners. With Synk, you can effortlessly build an entire event flow by filling out a simple form, allowing you to easily book travel, accommodation, and activities with just a few clicks.
 
+
+
+https://github.com/aidanbunch/synk/assets/44245721/3d31ae88-3256-46fb-b1dd-a897fa03c2f3
+
+
+
+Synk also offers AI recommendations for event flows using text embeddings, taking the guesswork out of event planning and ensuring a successful and enjoyable event. By providing a centralized platform for corporate event planning, Synk eliminates the need for messy spreadsheets and long email threads, making the process more efficient and enjoyable.
+## Features
+- Event Flow Creation: Input your requirements and preferences to build a complete event flow.
+<img width="1493" alt="synk" src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/Pitch%20Decks%20Synk.png">
+- Travel, Accommodation, and Activity Booking: Easily book flights, hotels, and activities directly through the platform.
+<img width="1493" alt="synk" src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/Pitch%20Decks%20Synk%20(1)..png">
+- End-to-End Control: Manage the entire event planning process from start to finish, with complete oversight and control.
+<img width="1493" alt="synk" src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/Pitch%20Decks%20Synk%20(2)..png">
+- AI Recommendations: Utilize AI-generated recommendations to design the perfect event flow for your needs.
+<img width="1493" alt="synk" src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/Synk%2032.png">
+  
+## Tech Stack
+Synk is built with a robust technology stack to ensure a seamless and user-friendly experience:
+- The frontend is built with Chakra UI and Next.js for a modern and interactive user interface.
+- The backend is powered by Supabase, creating a multitude of junction tables for event_flows to map flights, activities, and hotels.
+- The flights and hotels are sourced through Amadeus' enterprise APIs while activities were procured through partnerships with corporate event companies like Spaciously.
+  
 ## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To get started with Synk, follow these steps:
+1. Clone the repository.
+2. Install NPM packages: `npm install`
+3. Start the server: `npm run dev`
+4. Set up your `.env`. Refer to the `.env.example` for its structure.
+5. Open your web browser and visit http://localhost:3000
