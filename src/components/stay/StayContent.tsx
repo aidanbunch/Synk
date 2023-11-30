@@ -54,7 +54,6 @@ function StayContent({
 			limit: 8,
 		})
 			.then((data) => {
-				console.log(data);
 				setHotelData(data.hotels);
 			})
 			.finally(() => {

@@ -99,7 +99,6 @@ function ActivitiesContent({
 			if (error) {
 				console.error("Error fetching data:", error);
 			} else {
-				console.log(data);
 				setActivitiesData(data);
 			}
 			setIsLoading(false);
