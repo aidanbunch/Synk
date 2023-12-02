@@ -196,11 +196,19 @@ const OverviewPage = ({
 								) : (
 									<BookingCard
 										spentBudget={
-											(activityChecked && activity ? activity.price_per_participant *
-												event_flow.num_attendees : 0) +
-											(departureFlightChecked && departure_flight ? departure_flight.price : 0) +
-											(returnFlightChecked && return_flight ? return_flight.price : 0) +
-											(stayChecked && hotel ? hotel.total_price * event_flow.num_attendees : 0)
+											(activityChecked && activity
+												? activity.price_per_participant *
+												  event_flow.num_attendees
+												: 0) +
+											(departureFlightChecked && departure_flight
+												? departure_flight.price
+												: 0) +
+											(returnFlightChecked && return_flight
+												? return_flight.price
+												: 0) +
+											(stayChecked && hotel
+												? hotel.total_price * event_flow.num_attendees
+												: 0)
 										}
 										totalBudget={event_flow ? event_flow.budget : 4500}
 										hotelCards={
@@ -253,10 +261,12 @@ const OverviewPage = ({
 													<BookingCardSectionItem
 														heading={activity.name}
 														subheading={`( ${formatPrice(
-															activity.price_per_participant *
-																event_flow.num_attendees
+															activity.price_per_participant
 														)}, ${event_flow.num_attendees}) `}
-														price={200}
+														price={
+															activity.price_per_participant *
+															event_flow.num_attendees
+														}
 													/>
 												</>
 											) : (
