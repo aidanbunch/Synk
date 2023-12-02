@@ -22,7 +22,7 @@ function Meta(props: { children?: React.ReactNode } & PageMeta) {
   const globalMeta: GlobalMeta = {
     siteName: "Synk",
     // prod domain
-    domain: "",
+    domain: "https://getsynk.co",
   };
 
   // default, can be overriden with props
