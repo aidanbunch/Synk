@@ -50,15 +50,15 @@ function AuthPage() {
 							<VStack spacing="4">
 								<Avatar
 									size="lg"
-									src="https://avatars.githubusercontent.com/u/20296626?v=4"
-									name="Simon Holzmayer"
+									src="https://avatars.githubusercontent.com/u/44245721?v=4"
+									name="Aidan Bunch"
 								/>
 								<Stack textAlign="center" spacing="1">
 									<Text textStyle="md" fontWeight="medium" color="fg.muted">
 										Aidan Bunch
 									</Text>
 									<Text fontWeight="medium" textStyle="sm" color="fg.muted">
-										aidan@synk.com
+										aidan@getsynk.co
 									</Text>
 								</Stack>
 							</VStack>
