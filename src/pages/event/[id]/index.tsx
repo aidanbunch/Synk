@@ -15,8 +15,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	if (!id || eventFlowExists === undefined || !eventFlowExists) {
 		// generate recommendation and pass id down as prop
-		// delay for 3 seconds to allow db to load
-		await new Promise((resolve) => setTimeout(resolve, 1000));
 
 		const eventFlow = await getEventFlowFromUUID(id as string);
 		return {
