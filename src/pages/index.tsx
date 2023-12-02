@@ -9,10 +9,10 @@ export default function Home() {
 		<>
 			<Meta title="Synk" />
 			<Box as="section" bg="bg.surface">
-				<Container py={{ base: "16", md: "24" }}>
+				<Container py="16">
 					<Stack spacing={{ base: "8", md: "10" }}>
 						<Stack spacing={{ base: "4", md: "5" }} align="center">
-							<Heading size="3xl" textAlign="center" minW="1000" pt="15" pb="6">Event Planning, Made Easy</Heading>
+							<Heading size="3xl" textAlign="center" pt="15" pb="6">Event Planning, Made Easy</Heading>
 							<video
 								src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/synk-demo.mp4"
 								loop
