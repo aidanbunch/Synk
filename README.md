@@ -10,13 +10,13 @@ https://github.com/aidanbunch/synk/assets/44245721/3d31ae88-3256-46fb-b1dd-a897f
 Synk also offers AI recommendations for event flows using text embeddings, taking the guesswork out of event planning and ensuring a successful and enjoyable event. By providing a centralized platform for corporate event planning, Synk eliminates the need for messy spreadsheets and long email threads, making the process more efficient and enjoyable.
 ## Features
 - Event Flow Creation: Input your requirements and preferences to build a complete event flow.
-<img width="1493" alt="synk" src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/Pitch%20Decks%20Synk.png">
+- <img width="1493" alt="synk" src="https://github.com/user-attachments/assets/21ac66f6-4d63-4800-9833-a0c9a9fccf4a">
 - Travel, Accommodation, and Activity Booking: Easily book flights, hotels, and activities directly through the platform.
-<img width="1493" alt="synk" src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/Pitch%20Decks%20Synk%20(1)..png">
+<img width="1493" alt="synk" src="https://github.com/user-attachments/assets/68b3d39b-257e-4458-9b77-117014731064">
 - End-to-End Control: Manage the entire event planning process from start to finish, with complete oversight and control.
-<img width="1493" alt="synk" src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/Pitch%20Decks%20Synk%20(2)..png">
+<img width="1493" alt="synk" src="https://github.com/user-attachments/assets/1f39140d-cecd-42e7-b4c0-6c5d4cbafc94">
 - AI Recommendations: Utilize AI-generated recommendations to design the perfect event flow for your needs.
-<img width="1493" alt="synk" src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/Synk%2032.png">
+<img width="1493" alt="synk" src="https://github.com/user-attachments/assets/ee291883-5b43-46d2-9971-a4e4dd732762">
   
 ## Tech Stack
 Synk is built with a robust technology stack to ensure a seamless and user-friendly experience:
