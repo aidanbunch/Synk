@@ -14,7 +14,7 @@ export default function Home() {
 						<Stack spacing={{ base: "4", md: "5" }} align="center">
 							<Heading size="3xl" textAlign="center" pt="15" pb="6">Event Planning, Made Easy</Heading>
 							<video
-								src="https://qwusjyzfofxtckzzaexg.supabase.co/storage/v1/object/public/VideoBucket/synk-demo.mp4"
+								src="https://github.com/user-attachments/assets/46bf8cfc-4b8b-41a2-801c-838d775a74eb"
 								loop
 								autoPlay
 								muted
